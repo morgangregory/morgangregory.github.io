@@ -19,5 +19,33 @@
     "title": "Quarto Web Demo",
     "section": "",
     "text": "This is the main landing page!\n\nTo learn more about geezers.\nTo learn more about Quarto websites."
+  },
+  {
+    "objectID": "CombiningDataFrames.html#required-packages-and-datasets",
+    "href": "CombiningDataFrames.html#required-packages-and-datasets",
+    "title": "Combining Data Frames Exercises",
+    "section": "Required packages and datasets",
+    "text": "Required packages and datasets\nRun the code in the code chunk below to load the dataset happy_full.\n\n\nCode\nlibrary(tidybiology)\ndata(happy)\ndata(happy_join_one)\ndata(happy_full)"
+  },
+  {
+    "objectID": "CombiningDataFrames.html#problem-one",
+    "href": "CombiningDataFrames.html#problem-one",
+    "title": "Combining Data Frames Exercises",
+    "section": "Problem One",
+    "text": "Problem One\n\nTake a look at the three data frames - happy, happy_join_one, and happy_full.\n\n\n\nCode\n```{r}\n#| warning: false\n#| label: \"tbl-happy\"\n#| tbl_cap: \"Happy Data\"\nglimpse(happy)\nglimpse(happy_join_one)\nglimpse(happy_full)\n\nhappy |&gt; gt::gt()\n```\n\n\n\n?(caption)\n\n\n\nRows: 5\nColumns: 4\n$ country_name   &lt;chr&gt; \"Iraq\", \"Comoros\", \"Panama\", \"Maldives\", \"Spain\"\n$ ladder_score   &lt;dbl&gt; 4.854, 4.289, 6.180, 5.198, 6.491\n$ gdp            &lt;dbl&gt; 9.240, 8.031, 10.350, 9.826, 10.571\n$ social_support &lt;dbl&gt; 0.746, 0.626, 0.896, 0.913, 0.932\nRows: 5\nColumns: 2\n$ country_name            &lt;chr&gt; \"Iraq\", \"Comoros\", \"Panama\", \"Maldives\", \"Spai…\n$ healthy_life_expectancy &lt;dbl&gt; 60.583, 57.349, 69.652, 70.600, 74.700\nRows: 149\nColumns: 20\n$ country_name                              &lt;chr&gt; \"Finland\", \"Denmark\", \"Switz…\n$ region                                    &lt;chr&gt; \"Western Europe\", \"Western E…\n$ ladder_score                              &lt;dbl&gt; 7.842, 7.620, 7.571, 7.554, …\n$ standard_error_of_ladder_score            &lt;dbl&gt; 0.032, 0.035, 0.036, 0.059, …\n$ upperwhisker                              &lt;dbl&gt; 7.904, 7.687, 7.643, 7.670, …\n$ lowerwhisker                              &lt;dbl&gt; 7.780, 7.552, 7.500, 7.438, …\n$ logged_gdp_per_capita                     &lt;dbl&gt; 10.775, 10.933, 11.117, 10.8…\n$ social_support                            &lt;dbl&gt; 0.954, 0.954, 0.942, 0.983, …\n$ healthy_life_expectancy                   &lt;dbl&gt; 72.000, 72.700, 74.400, 73.0…\n$ freedom_to_make_life_choices              &lt;dbl&gt; 0.949, 0.946, 0.919, 0.955, …\n$ generosity                                &lt;dbl&gt; -0.098, 0.030, 0.025, 0.160,…\n$ perceptions_of_corruption                 &lt;dbl&gt; 0.186, 0.179, 0.292, 0.673, …\n$ ladder_score_in_dystopia                  &lt;dbl&gt; 2.43, 2.43, 2.43, 2.43, 2.43…\n$ explained_by_log_gdp_per_capita           &lt;dbl&gt; 1.446, 1.502, 1.566, 1.482, …\n$ explained_by_social_support               &lt;dbl&gt; 1.106, 1.108, 1.079, 1.172, …\n$ explained_by_healthy_life_expectancy      &lt;dbl&gt; 0.741, 0.763, 0.816, 0.772, …\n$ explained_by_freedom_to_make_life_choices &lt;dbl&gt; 0.691, 0.686, 0.653, 0.698, …\n$ explained_by_generosity                   &lt;dbl&gt; 0.124, 0.208, 0.204, 0.293, …\n$ explained_by_perceptions_of_corruption    &lt;dbl&gt; 0.481, 0.485, 0.413, 0.170, …\n$ dystopia_residual                         &lt;dbl&gt; 3.253, 2.868, 2.839, 2.967, …\n\n\n\n\n\n\n\n\n  \n    \n      country_name\n      ladder_score\n      gdp\n      social_support\n    \n  \n  \n    Iraq\n4.854\n9.240\n0.746\n    Comoros\n4.289\n8.031\n0.626\n    Panama\n6.180\n10.350\n0.896\n    Maldives\n5.198\n9.826\n0.913\n    Spain\n6.491\n10.571\n0.932"
+  },
+  {
+    "objectID": "CombiningDataFrames.html#problem-two",
+    "href": "CombiningDataFrames.html#problem-two",
+    "title": "Combining Data Frames Exercises",
+    "section": "Problem Two",
+    "text": "Problem Two\nCombine happy and happy_join_one by row\n\n\n# A tibble: 10 × 5\n   country_name ladder_score   gdp social_support healthy_life_expectancy\n   &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt;          &lt;dbl&gt;                   &lt;dbl&gt;\n 1 Iraq                 4.85  9.24          0.746                    NA  \n 2 Comoros              4.29  8.03          0.626                    NA  \n 3 Panama               6.18 10.4           0.896                    NA  \n 4 Maldives             5.20  9.83          0.913                    NA  \n 5 Spain                6.49 10.6           0.932                    NA  \n 6 Iraq                NA    NA            NA                        60.6\n 7 Comoros             NA    NA            NA                        57.3\n 8 Panama              NA    NA            NA                        69.7\n 9 Maldives            NA    NA            NA                        70.6\n10 Spain               NA    NA            NA                        74.7"
+  },
+  {
+    "objectID": "CombiningDataFrames.html#problem-three",
+    "href": "CombiningDataFrames.html#problem-three",
+    "title": "Combining Data Frames Exercises",
+    "section": "Problem Three",
+    "text": "Problem Three\nCombine happy and happy_join_one by column. Note: Check to see if this is even possible.\n\n\n[1] TRUE\n\n\n# A tibble: 5 × 6\n  country_name...1 ladder_score   gdp social_support country_name...5\n  &lt;chr&gt;                   &lt;dbl&gt; &lt;dbl&gt;          &lt;dbl&gt; &lt;chr&gt;           \n1 Iraq                     4.85  9.24          0.746 Iraq            \n2 Comoros                  4.29  8.03          0.626 Comoros         \n3 Panama                   6.18 10.4           0.896 Panama          \n4 Maldives                 5.20  9.83          0.913 Maldives        \n5 Spain                    6.49 10.6           0.932 Spain           \n# ℹ 1 more variable: healthy_life_expectancy &lt;dbl&gt;"
   }
 ]

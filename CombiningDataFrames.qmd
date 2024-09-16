@@ -1,0 +1,64 @@
+---
+title: "Combining Data Frames Exercises"
+format:
+  revealjs: 
+    chalkboard: true
+    theme: serif
+code-fold: true  
+---
+
+```{r}
+#| message: false
+#| warning: false
+library(tidyverse)
+library(dplyr)
+```
+
+## Required packages and datasets
+
+Run the code in the code chunk below to load the dataset `happy_full`.
+
+```{r}
+#| echo: true
+
+
+library(tidybiology)
+data(happy)
+data(happy_join_one)
+data(happy_full)
+```
+
+## Problem One
+
+-   Take a look at the three data frames - `happy`, `happy_join_one`, and `happy_full`.
+
+```{r}
+#| echo: fenced
+#| warning: false
+#| label: "tbl-happy"
+#| tbl_cap: "Happy Data"
+glimpse(happy)
+glimpse(happy_join_one)
+glimpse(happy_full)
+
+happy |> gt::gt()
+```
+
+## Problem Two
+
+Combine `happy` and `happy_join_one` by row
+
+```{r}
+bind_rows(happy, happy_join_one)
+```
+
+## Problem Three
+
+Combine `happy` and `happy_join_one` by column. Note: Check to see if this is even possible.
+
+```{r}
+nrow(happy) == nrow(happy_join_one)
+
+bind_cols(happy, happy_join_one)
+```
+
