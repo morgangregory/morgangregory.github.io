@@ -38,10 +38,11 @@ data(happy_full)
 #| label: "tbl-happy"
 #| tbl_cap: "Happy Data"
 glimpse(happy)
+
 glimpse(happy_join_one)
+
 glimpse(happy_full)
 
-happy |> gt::gt()
 ```
 
 ## Problem Two
