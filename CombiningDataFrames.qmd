@@ -35,8 +35,8 @@ data(happy_full)
 ```{r}
 #| echo: fenced
 #| warning: false
-#| label: "tbl-happy"
-#| tbl_cap: "Happy Data"
+
+
 glimpse(happy)
 
 glimpse(happy_join_one)
