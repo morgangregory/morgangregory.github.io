@@ -2,7 +2,7 @@
 title: "About Me"
 ---
 
-This is where you get to write about yourself.
+.
 
 
 
