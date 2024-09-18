@@ -1,7 +1,7 @@
 {
-  "hash": "785079dee893173e7c8bd6cd5e84e56f",
+  "hash": "a32b886b77d2fcaa17d5c059785036dc",
   "result": {
-    "markdown": "---\ntitle: \"About Me\"\n---\n\n\nThis is where you get to write about yourself.\n\n\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](about_files/figure-html/unnamed-chunk-1-1.png){width=672}\n:::\n:::\n",
+    "markdown": "---\ntitle: \"About Me\"\n---\n\n\n.\n\n\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](about_files/figure-html/unnamed-chunk-1-1.png){width=672}\n:::\n:::\n",
     "supporting": [
       "about_files"
     ],
