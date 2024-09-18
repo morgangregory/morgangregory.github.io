@@ -50,6 +50,8 @@ glimpse(happy_full)
 Combine `happy` and `happy_join_one` by row
 
 ```{r}
+#| echo: fenced
+#| warning: false
 bind_rows(happy, happy_join_one)
 ```
 
@@ -58,6 +60,8 @@ bind_rows(happy, happy_join_one)
 Combine `happy` and `happy_join_one` by column. Note: Check to see if this is even possible.
 
 ```{r}
+#| echo: fenced
+#| warning: false
 nrow(happy) == nrow(happy_join_one)
 
 bind_cols(happy, happy_join_one)

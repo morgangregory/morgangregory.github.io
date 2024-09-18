@@ -476,6 +476,13 @@ $ dystopia_residual                         &lt;dbl&gt; 3.253, 2.868, 2.839, 2.9
 <h2>Problem Two</h2>
 <p>Combine <code>happy</code> and <code>happy_join_one</code> by row</p>
 <div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="co">#| warning: false</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="fu">bind_rows</span>(happy, happy_join_one)</span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 5
    country_name ladder_score   gdp social_support healthy_life_expectancy
@@ -497,11 +504,18 @@ $ dystopia_residual                         &lt;dbl&gt; 3.253, 2.868, 2.839, 2.9
 <h2>Problem Three</h2>
 <p>Combine <code>happy</code> and <code>happy_join_one</code> by column. Note: Check to see if this is even possible.</p>
 <div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="co">#| warning: false</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="fu">nrow</span>(happy) <span class="sc">==</span> <span class="fu">nrow</span>(happy_join_one)</span>
+<span id="cb6-4"><a href="#cb6-4"></a></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="fu">bind_cols</span>(happy, happy_join_one)</span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] TRUE</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 6
+<pre><code>[1] TRUE
+# A tibble: 5 × 6
   country_name...1 ladder_score   gdp social_support country_name...5
   &lt;chr&gt;                   &lt;dbl&gt; &lt;dbl&gt;          &lt;dbl&gt; &lt;chr&gt;           
 1 Iraq                     4.85  9.24          0.746 Iraq            
