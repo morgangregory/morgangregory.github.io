@@ -1,8 +1,9 @@
 ---
-title: "Quarto Web Demo"
+title: "Home"
 ---
 
-This is the main landing page!
+[My LinkedIn:](https://www.linkedin.com/in/morgan-gregory-051441299/details/experience/)
+[My GitHub:](https://github.com/morgangregory/morgangregory.github.io)
 
 
 * To learn more about [Quarto websites](https://quarto.org/docs/websites).
