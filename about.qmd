@@ -2,7 +2,7 @@
 title: "About Me"
 ---
 
-.
+I am a third-year statistics major at Appalachian State University. After I graduate, I hope to either go to graduate school at NC State or start my career working in data analytics or data science. 
 
 
 

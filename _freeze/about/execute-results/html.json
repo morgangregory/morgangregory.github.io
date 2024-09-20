@@ -1,7 +1,7 @@
 {
-  "hash": "a32b886b77d2fcaa17d5c059785036dc",
+  "hash": "42e8bc94c60666fee4262b450c802483",
   "result": {
-    "markdown": "---\ntitle: \"About Me\"\n---\n\n\n.\n\n\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](about_files/figure-html/unnamed-chunk-1-1.png){width=672}\n:::\n:::\n",
+    "markdown": "---\ntitle: \"About Me\"\n---\n\n\nI am a third-year statistics major at Appalachian State University. After I graduate, I hope to either go to graduate school at NC State or start my career working in data analytics or data science. \n\n\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](about_files/figure-html/unnamed-chunk-1-1.png){width=672}\n:::\n:::\n",
     "supporting": [
       "about_files"
     ],

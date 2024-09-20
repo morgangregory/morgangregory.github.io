@@ -15,11 +15,11 @@ website:
     
     tools:
       - icon: linkedin
-        href: https://www.linkedin.com/
+        href: https://www.linkedin.com/in/morgan-gregory-051441299/
       - icon: github
         menu:
           - text: Source Code
-            href: https://github.com
+            href: https://github.com/morgangregory
           - text: Report a Bug
             href: https://github.com  
 
