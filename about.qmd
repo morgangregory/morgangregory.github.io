@@ -6,9 +6,5 @@ I am a third-year statistics major at Appalachian State University. After I grad
 
 
 
-```{r}
-#| echo: false
-set.seed(123)
-hist(rnorm(10000), col = "red", main = "Red Histogram", xlab = "")
-```
+
 
