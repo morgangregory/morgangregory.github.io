@@ -32,20 +32,20 @@
     "href": "index.html",
     "title": "Home",
     "section": "",
-    "text": "My LinkedIn:\nMy GitHub:\n\nTo learn more about Quarto websites."
+    "text": "My LinkedIn:\nMy GitHub:"
   },
   {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About Me",
     "section": "",
-    "text": "I am a third-year statistics major at Appalachian State University. After I graduate, I hope to either go to graduate school at NC State or start my career working in data analytics or data science."
+    "text": "I am a third-year statistics major at Appalachian State University. After I graduate, I hope to either go to graduate school at NC State or start my career working in data analytics or data science. Last summer, I was an analytics intern at MDI in Hickory, NC. During my internship, I analyzed data using Placer.ai and SiteSeer to help small grocery store owners make better marketing, merchandising, and relocation/expansion decisions."
   },
   {
     "objectID": "project.html",
     "href": "project.html",
     "title": "Projects",
     "section": "",
-    "text": "I will upload my STT 2860 projects here as I complete them * Project 1 * Project 2 * Project 3 * Project 4"
+    "text": "I will upload my STT 2860 projects here as I complete them"
   }
 ]
