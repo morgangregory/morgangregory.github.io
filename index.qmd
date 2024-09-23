@@ -2,9 +2,6 @@
 title: "Home"
 ---
 
-[My LinkedIn:](https://www.linkedin.com/in/morgan-gregory-051441299/)
-
-[My GitHub:](https://github.com/morgangregory/morgangregory.github.io)
 
 
 
