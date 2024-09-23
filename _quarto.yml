@@ -17,7 +17,7 @@ website:
       - icon: linkedin
         href: https://www.linkedin.com/in/morgan-gregory-051441299/
       - icon: github
-      - href: https://github.com/morgangregory
+        href: https://github.com/morgangregory
           
 
 format:
