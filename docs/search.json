@@ -28,13 +28,6 @@
     "text": "Problem Three\nCombine happy and happy_join_one by column. Note: Check to see if this is even possible.\n\n\nCode\n```{r}\n#| warning: false\nnrow(happy) == nrow(happy_join_one)\n\nbind_cols(happy, happy_join_one)\n```\n\n\n[1] TRUE\n# A tibble: 5 × 6\n  country_name...1 ladder_score   gdp social_support country_name...5\n  &lt;chr&gt;                   &lt;dbl&gt; &lt;dbl&gt;          &lt;dbl&gt; &lt;chr&gt;           \n1 Iraq                     4.85  9.24          0.746 Iraq            \n2 Comoros                  4.29  8.03          0.626 Comoros         \n3 Panama                   6.18 10.4           0.896 Panama          \n4 Maldives                 5.20  9.83          0.913 Maldives        \n5 Spain                    6.49 10.6           0.932 Spain           \n# ℹ 1 more variable: healthy_life_expectancy &lt;dbl&gt;"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Home",
-    "section": "",
-    "text": "My LinkedIn:\nMy GitHub:"
-  },
-  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About Me",
