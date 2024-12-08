@@ -1,0 +1,413 @@
+---
+title: "Fantasy Football Project"
+---
+
+# Introduction
+
+In this project, I want to look into fantasy football statistics to find better strategies when drafting your team and confirm/deny several "myths" among fantasy football players.   
+
+In fantasy football, a group of ~6-14 "owners" take turns drafting teams of real-life NFL players. Each game, individual NFL players are awarded "fantasy points" depending on their performance. Usually, a fantasy team is comprised of 1 Quarterback (QB), 2-3 Running Backs (RB), 2-3 Wide Receivers (WR), 1 Tight End (TE), 1 Defense (D), and 1 Kicker (K). The data I will be using in this analysis uses points per reception (PPR) scoring, which awards an extra point to players every time they catch a pass. For more information on the standard PPR scoring format, [look here](https://support.espn.com/hc/en-us/articles/360003914032-Scoring-Formats). 
+
+The 5 main questions that I want to answer are:      
+1: Is the best real-life team also the best fantasy team?    
+2: Is having several players from the same NFL teal on your fantasy team a bad idea?    
+3: What is the relative value of each position in fantasy football, and how can you use this information to make better drafting decisions?  
+4: Is there any correlation between a player's age and their fantasy football performance? Are older players more likely to get injured during the season?  
+5: How has positional value changed over time?   
+
+To do this, I will be using fantasy football scoring data from the 2023 NFL season. In part 5, I will also use data from the past 10 seasons, including the data we have so far for this year. 
+
+Packages:
+```{r}
+#| message: false
+library(ggplot2)
+library(dplyr)
+library(readr)
+library(ggrepel)
+```
+
+
+## Part 1: Is the best real-life team also the best fantasy team?
+
+My first question is to see how each NFL team would perform based on fantasy football scoring, and compare their performance with the real-life NFL standings from 2023. 
+
+In the 2023 NFL season, the regular season standings looked like this:
+
+1: Baltimore Ravens   
+2: Dallas Cowboys   
+3: Detroit Lions   
+4: San Francisco 49ers   
+5: Buffalo Bills   
+6: Cleveland Browns   
+7: Kansas City Chiefs   
+8: Miami Dolphins   
+9: Philadelphia Eagles   
+10: Houston Texans   
+11: Los Angeles Rams   
+12: Pittsburgh Steelers   
+13: Cincinnati Bengals   
+14: Green Bay Packers   
+15: Indianapolis Colts   
+16: Jacksonville Jaguars   
+17: New Orleans Saints   
+18: Seattle Seahawks   
+19: Tampa Bay Buccaneers   
+20: Denver Broncos   
+21: Las Vegas Raiders   
+22: Atlanta Falcons   
+23: Chicago Bears   
+24: Minnesota Vikings   
+25: New York Jets   
+26: New York Giants   
+27: Tennessee Titans   
+28: Los Angeles Chargers   
+29: Arizona Cardinals   
+30: New England Patriots   
+31: Washington Commanders   
+32: Carolina Panthers   
+
+For this task, I will find the total number of fantasy points scored for each team in the NFL.
+
+Importing Data:
+```{r}
+PointsPerTeam <- read_csv("PointsPerTeam.csv", show_col_types = FALSE)
+```
+
+Grouping by team:
+```{r}
+PointsPerTeam_ByTeam <- PointsPerTeam |> group_by(Tm) |> summarize(Total_Points = sum(PPR)) 
+head(PointsPerTeam_ByTeam)
+```
+
+Notice that we have 536.1 points coming from players who played for 2 Teams, and 4.0 points coming from players who played for 3 teams. To add these to our totals, I will look at these individual player's stats on a per-game basis, and add their points to the teams they played for. I will then remove those rows from our data frame. 
+
+Removing Multiple Team listings from data frame:
+```{r}
+PointsPerTeam_ByTeam <- PointsPerTeam_ByTeam |> filter(Tm != "3TM" & Tm != "2TM")
+```
+
+Adding points for multi-team players (Had to do this manually):
+```{r}
+PointsPerTeam_ByTeam[1,2] = 1163.7 + 152.9
+PointsPerTeam_ByTeam[2,2] = 1255.5 + 10.1
+PointsPerTeam_ByTeam[3,2] = 1534.3 + 1.1
+PointsPerTeam_ByTeam[6,2] = 1234.4 + 32.5
+PointsPerTeam_ByTeam[8,2] = 1370.5 + 9.7
+PointsPerTeam_ByTeam[11,2] = 1690.5 + 5.8
+PointsPerTeam_ByTeam[13,2] = 1485.3 + .9
+PointsPerTeam_ByTeam[15,2] = 1460.9 - 1.2
+PointsPerTeam_ByTeam[16,2] = 1465.5 + 10.1
+PointsPerTeam_ByTeam[18,2] = 1485.4 + 20.1
+PointsPerTeam_ByTeam[20,2] = 1685.4 + 4.2
+PointsPerTeam_ByTeam[21,2] = 1401.3 + 102.9
+PointsPerTeam_ByTeam[22,2] = 1488.6 + 21.1
+PointsPerTeam_ByTeam[24,2] = 1169.3 + 0.2
+PointsPerTeam_ByTeam[25,2] = 1023.7 + 11.2
+PointsPerTeam_ByTeam[27,2] = 1204 - 4
+```
+
+Next, since our original dataset didn't have scoring for Kickers or Defense, we will use [ESPN's 2023 Fantasy Scoring](https://fantasy.espn.com/football/leaders?statSplit=lastSeason&scoringPeriodId=0) to add these values to our data:
+(They didn't have a CSV available, so I had to do this manually)
+
+Defense and Kicker Scoring:
+```{r}
+Def_scoring <- c(50, 92, 172, 158, 81, 110, 91, 166, 172, 98, 93, 99, 118, 123, 105, 140, 86, 75, 135, 139, 111, 129, 111, 114, 159, 80, 127, 80, 136, 108, 88, 30)
+K_scoring <- c(126, 133, 155, 128, 105, 155, 135, 146, 180, 125, 117, 119, 113, 149, 139, 153, 117, 149, 136, 142, 113, 72, 143, 93, 140, 155, 131, 127, 151, 134, 130, 98)
+```
+
+Calculating each team's total fantasy score for the 2023 season:
+```{r}
+Total_Score <- data.frame(PointsPerTeam_ByTeam, Def_scoring, K_scoring)
+Total_Score <- Total_Score |> mutate(Total_Points_Final = Total_Points + Def_scoring + K_scoring) |> select(Tm, Total_Points_Final) 
+head(Total_Score)
+```
+
+To compare the 32 NFL teams' fantasy performance with their real life performance, we need to add a column with their real life ranking and fantasy ranking to the data frame.
+
+```{r}
+Total_Score$rank <- rank(Total_Score$Total_Points_Final)
+Real_Ranking <- c(4, 11, 32, 28, 1, 10, 20, 27, 31, 13, 30, 19, 23, 18, 17, 26, 5, 22, 12, 25, 9, 16, 3, 7, 8, 24, 21, 15, 29, 14, 6, 2)
+Total_Score <- data.frame(Total_Score, Real_Ranking)
+Total_Score
+```
+
+
+```{r}
+#| label: fig-1
+#| fig-cap: "A scatterplot showing the relationship between each NFL team's real-life ranking and their fantasy ranking. Note: Rank 32 is the best, and rank 1 is the worst."
+ggplot(Total_Score, aes(x = Real_Ranking, y = rank, label = Tm)) + geom_point() + theme_bw() + xlab("Real Life Ranking") + ylab("Fantasy Ranking") + geom_text(vjust = 1.5)
+```
+As expected, the better real-life team also tends to perform better in fantasy football. Some interesting outliers are the Minnesota Vikings, who are the 9th worst real-life team, but the 9th *best* fantasy team. Another interesting team is the Pittsburgh Steelers, who are the 12th best real-life team and the 6th worst fantasy team. 
+
+Because many teams have the same win-loss record, lets look at another visualization that compares a team's number of wins with their total fantasy points scored. 
+
+```{r}
+num_wins <- c(4, 7, 13, 11, 2, 7, 9, 11, 12, 8, 12, 9, 10, 9, 9, 11, 5, 10, 8, 11, 7, 9, 4, 6, 7, 11, 10, 9, 12, 9, 6, 4)
+Total_Score <- data.frame(Total_Score, num_wins)
+```
+
+```{r}
+#| label: fig-2
+#| fig-cap: "A scatterplot showing the relationship between each NFL team's number of wins and theit total number of fantasy points scored."
+ggplot(Total_Score, aes(x = num_wins, y = Total_Points_Final, label = Tm)) + geom_point() + theme_bw() + xlab("# of Wins") + ylab("Total Fantasy Points Scored") + scale_x_continuous(breaks = c(2, 4, 6, 8, 10, 12, 14, 16)) + geom_text_repel()
+```
+
+Once again, we see that there is a positive correlation between number of wins and the total number of fantasy points scored. Interestingly, there is lots of variance in points scored for teams with the same number of wins. For example, the difference between the best and worst fantasy scorers with 7 wins is ~400 points! 
+
+Although real-life success is a good predictor for fantasy football success on a team-wide scale, the best team in real-life was *not* the best team in fantasy football in the 2023 regular season. The #1 scoring team in fantasy last year were the Dallas Cowboys, who scored a total of 2046.4 fantasy points while being the #2 ranked real life team. The best real life team were the Baltimore Ravens, who were only the 6th best fantasy team. And if we look at the team who won the Super Bowl last year, the Kansas City Chiefs, they were 7th overall in both fantasy points scored and regular season ranking. I suspect that this discrepancy is due to the imbalance of offensive vs. defensive scoring in fantasy football. In real-life, it could be argued that offense and defense are equally important. In fantasy, however, many formats have individual offensive players but defense is represented by one "player" consisting of a whole team's defensive performance. 
+
+## Part Two: Is having several players from the same NFL teal on your fantasy team a bad idea?
+
+Next, I want to investigate the impact that players on the same team have on each other in the game of fantasy football. Common advice that you hear when drafting your fantasy football team is "don't draft a running back and wide receiver from the same team."     
+
+To determine the impact that a team's running back and wide receiver have on each other, let's visualize the relationship between fantasy points scored by the best running backs and wide receivers for each team in the NFL. For this investigation, I will be using players' points per game played *(PPG)* as a metric because I want to compare individual players with one another. By using this metric, the data won't be affected as much by players who may have missed games due to injury. 
+
+
+Importing Data:
+```{r}
+PlayerScoringPerGame <- read_csv("PlayerScoringPerGame.csv")
+head(PlayerScoringPerGame)
+```
+Cleaning up data set:
+```{r}
+PlayerScoringPerGame <- PlayerScoringPerGame |> select(Player, Tm, FantPos, PPR) |> filter(Tm != "3TM" & Tm != "2TM") |> filter(FantPos == "RB" | FantPos == "WR") |> arrange(desc(PPR))
+```
+
+Finding the best WR and RB from each team:
+```{r}
+BestWrRBPerTeam <- PlayerScoringPerGame |> group_by(Tm, FantPos) |> summarize(BestPlayer = max(PPR, na.rm = TRUE))
+BestWrRBPerTeam
+```
+
+Separating Data Frames By Position Averages and Finding the Differences:
+```{r}
+BestWRPerTeam <- BestWrRBPerTeam |> filter(FantPos == "WR")
+colnames(BestWRPerTeam) <- c("Tm", "FantPos", "BestWRAvg")
+
+BestRBPerTeam <- BestWrRBPerTeam |> filter(FantPos == "RB")
+colnames(BestRBPerTeam) <- c("Tm", "FantPos", "BestRBAvg")
+
+RB_WR_Comp <- data.frame(BestWRPerTeam, BestRBPerTeam)
+RB_WR_Comp <- RB_WR_Comp |> select(Tm, BestWRAvg, BestRBAvg) |> mutate(Difference = abs(BestWRAvg - BestRBAvg))
+RB_WR_Comp
+```
+
+Visualizations:
+```{r}
+#| label: fig-3
+#| fig-cap: "A scatterplot showing the relationship between each NFL team's top fantasy RB and WR."
+ggplot(RB_WR_Comp, aes(x = BestRBAvg, y = BestWRAvg, label = Tm)) + geom_point() + geom_text_repel() + scale_x_continuous(breaks = c(5, 10, 15, 20, 25)) + scale_y_continuous(breaks = c(5, 10, 15, 20, 25)) + geom_abline(intercept = 0, slope = 1, color = "red") + theme_bw() + xlab("Top RB Points Per Game") + ylab("Top WR Points Per Game")
+```
+
+In this graph, we can see the difference between each team's best WR and best RB in average fantasy scoring. The closer a team is to the red line, the more balanced their players' scoring was. Teams above the red line had their best WR score more than their best RB, and vice versa for teams below the red line. It is quite clear that for specific teams, one position scored much more / less than the other. Let's take a look at our list of the highest scoring individual players from before.
+
+```{r}
+PlayerScoringPerGame
+cor(RB_WR_Comp$BestRBAvg, RB_WR_Comp$BestWRAvg)
+```
+Here, we can pinpoint the players causing these large discrepancies in RB and WR average for their team. Players like Christian McCaffrey and CeeDee Lamb had a much higher average score than their WR/RB counterpart, so drafting other players on their team likely will not be a great idea. This is true for several other star players on the graph, with the most egregious example being Minnesota's Justin Jefferson, who averaged 11.88 more points than the top running back on his team. A key similarity between all the players mentioned previously is that they are known to be huge stars on their team, and are drafted very early in most fantasy drafts. So, drafting multiple players on the same team is only bad if it is the same team as a star player (eg. your first round pick.) After the top ~7-8 star players, the differences get much smaller between teams' best RB and WR. We see that the correlation between the two is 0.0317, which is very close to 0. So, in conclusion, as long as you do not draft teammates of a star player, having multiple players from one team likely won't impact your fantasy team's performance on a season-wide scale. 
+
+## Part 3: Positional Value
+
+Next, I would like to explore the value of each (offensive) position in Fantasy Football. First, let's look at how many points each position scores, on average. Since most fantasy football leagues have 8-12 people, each with ~12-15 players on their team, I will only be looking at the top 180 fantasy scorers. I am excluding Kickers and Defense for this ranking because in general, these positions are drafted much later in fantasy drafts and have much less of an impact on the overall strategy of drafting. 
+
+Importing Data: 
+```{r}
+PosnValue <- read_csv("PosnValue.csv", show_col_types = FALSE)
+```
+
+Cleaning and Sorting Data:
+```{r}
+Position_data <- PosnValue |> select(Rk, FantPos, PPR) |> group_by(FantPos)
+```
+
+First, let's look at the distribution of points per game for each position.
+
+```{r}
+#| label: fig-4
+#| fig-cap: "Bar charts showing distribution of points per game for each player, separated by postion."
+ggplot(Position_data, aes(x = PPR, fill = FantPos)) + geom_histogram(binwidth = 1, color = "black") + facet_wrap(~FantPos) + theme_bw() + xlab("Points Per Game (PPG)") + ylab("Count") + theme(legend.position="none")
+```
+We can see that WRs and QBs have more players scoring in the 20+ range, and there appears to be two RBs who are the only players at their position scoring 20+ PPG. There appears to be more WRs in our dataset overall, which makes sense because NFL teams tend to have 4-7 WRs on their team, and only 2-4 of the other 3 positions. TEs are the lowest scoring position by a wide margin, with no TEs scoring more than 15 PPG. Here is another look at this data: 
+
+```{r}
+#| label: fig-5
+#| fig-cap: "Side-by-side box plots showing the distribution of PPG for each position."
+ggplot(Position_data, aes(y = PPR, x = FantPos, fill = FantPos)) + geom_boxplot() + theme_bw() + theme(legend.position="none") + xlab("Position") + ylab("Points Per Game (PPG)")
+```
+QB has the highest Q1, Median, and Q3 PPG out of the 4 positions, but notice that the highest scoring individual player is a RB, followed by a WR. The median PPG is just about even between RBs and WRs, and once again we see that TEs are the lowest scoring position overall. The best TEs do tend to score more than the median RB and WR, however. 
+
+Now, let's look at the relationship between position and overall fantasy ranking. This fantasy ranking is based on the number of points a player scores and how much better they are than an average player at their position. 
+```{r}
+#| label: fig-6
+#| fig-cap: "A scatterplot showing the relationship between a player's overall fantasy ranking and their PPG, colored by their position. Note: In this graph, rank 1 is the best, and rank 180 is the worst."
+ggplot(Position_data, aes(x = Rk, y = PPR, color = FantPos)) + geom_point(size = 2.5) + theme_bw() + theme(legend.title=element_blank()) + xlab("Overall Fantasy Rank") + ylab("Points Per Game (PPG)") 
+```
+
+The top ranked players tend to be mostly RB's and WR's, with a handful of QB's and TE's mixed in. Interestingly, there appears to be a sizeable gap between the top ~8 TE's and the rest of the TE's appearing in the top 180. Since there are a larger number of WR's who average 10+ points than there are RB's, it may be a good idea to prioritize RB's in your fantasy football draft. For TE's, it makes sense to ensure you get a top-8 player, because the rankings and average points scored per game decrease significantly after that range. 
+
+
+Next, I want to use our data to determine the best drafting strategies for the QB position. A common "myth" in fantasy football is that people who draft a QB very early tend to be inexperienced players. Let's find out if drafting a QB early is truly a beginner pitfall, or if there are some scenarios where it is a viable strategy. 
+
+Since most fantasy football leagues cap out at ~14 players and only allow for 1 starting QB at a time, I will filter the data for only the top 15 fantasy QB's. 
+```{r}
+QB_data <- PosnValue |> filter(FantPos == "QB") |> select(Rk, Player, PPR) |> arrange(Rk)
+QB_data <- QB_data[1:15,]
+QB_data
+```
+Now that we know where our cutoffs are for the top, middle, and bottom tier QB's, we can add a new column with each player's tier.
+```{r}
+Tier <- c("Top", "Top", "Top", "Top", "Top", "Mid", "Mid", "Mid", "Mid", "Mid", "Bottom", "Bottom", "Bottom", "Bottom", "Bottom")
+QB_data_tiered <- data.frame(QB_data, Tier)
+QB_data_tiered
+```
+
+Box Plots:
+```{r}
+#| label: fig-7
+#| fig-cap: "Side-by-side box plots showing the distribution in PPG for the top 1-5 QBs, top 6-10 QBs, and top 11-15 QBs."
+ggplot(QB_data_tiered, aes(x = factor(Tier), y = PPR)) + geom_boxplot() + theme_bw() + xlab("Tier") + ylab("Points Per Game (PPG)")
+```
+Here, we can see the separation between the top 5 QBs and QBs ranked 6-15. We see that there is both a high and a low outlier in the top-5 QBs, and that one of the bottom-tier QBs is ranked higher than one of the middle-tier QBs. (This is likely due to an injury, as the bottom-tier QB missed games and scored a lower total number of points, but they had a higher average PPG than the mid-tier QB.) We can also see that the difference between the median bottom-tier and mid-tier QB is only ~1.5 points, while the difference between the median middle-tier QB and top-tier QB is ~3 points. Let's change our tier system to just two tiers to better reflect the data.
+
+```{r}
+QB_data_tiered$Tier <- c("Top", "Top", "Top", "Top", "Not", "Not", "Not", "Not", "Not", "Not", "Not", "Not", "Not", "Not", "Not")
+```
+New Box Plots:
+```{r}
+#| label: fig-8
+#| fig-cap: "Side-by-side boxplots showing the distribution in PPG for the top 1-4 QBs and the top 5-15 QBs."
+ggplot(QB_data_tiered, aes(x = factor(Tier), y = PPR)) + geom_boxplot() + theme_bw() + xlab("Tier") + ylab("Points Per Game (PPG)")
+```
+There is a large separation between the top 4 QB's and the rest of the top 15. Based on our data, it makes sense to draft a QB early if you are getting one of the top 4 in the league, but after that point, the difference between the next-best QB's is less pronounced. So, if you miss out on drafting one of the best QB's, there is no need to rush in drafting your QB. 
+
+In conclusion, drafting a QB very early can be a valid strategy if you get one of the top scoring QBs, but when the draft takes place, there is no way of knowing which QB will perform the best or if the top performers from last year will put up the same numbers in the following season. This strategy is ultimately a gamble, but since the top scoring QBs are on par with the top scoring RBs and WRs as we saw before, it could pay off if you pick the right player.
+
+## Part 4: How does age affect fantasy performance?
+
+For this, we will look at the top 180 players based on total fantasy points scored. 
+
+Importing & Cleaning Data
+```{r}
+AgeData <- read_csv("AgeData.csv", show_col_types = FALSE)
+AgeData <- AgeData[1:180, ]
+head(AgeData)
+```
+First, let's look at the overall age distribution in the NFL:
+```{r}
+ggplot(AgeData, aes(x = Age, fill = FantPos)) + geom_histogram(binwidth = 1, color = "Black") + theme_bw()
+```
+
+Let's look at how many points players score based on their age:
+
+```{r}
+ggplot(AgeData, aes(x = Age, y = PPR)) + geom_point() + geom_smooth(method = "lm", se = FALSE) + theme_bw()
+```
+Another look, using average fantasy points scored for each age.
+
+```{r}
+AgeAverages <- AgeData |> group_by(Age) |> summarize(MeanScore = mean(PPR))
+ggplot(AgeAverages, aes(x = Age, y = MeanScore)) + geom_point() + theme_bw() + geom_smooth(method = "loess", se = FALSE)
+```
+
+Let's see if this is different based on position:
+
+```{r}
+ggplot(AgeData, aes(x = Age, y = PPR, color = FantPos)) + geom_point() + geom_smooth(method = "lm", se = FALSE) + theme_bw() + facet_wrap(~ FantPos)
+```
+```{r}
+AgeAverages_p <- AgeData |> group_by(Age, FantPos) |> summarize(MeanScore = mean(PPR))
+ggplot(AgeAverages_p, aes(x = Age, y = MeanScore, color = FantPos)) + geom_point() + geom_smooth(method = "loess", se = FALSE) + theme_bw()
+```
+
+
+
+Next, let's see how injuries effect players as they age. For this, I will only be looking at the top 120 fantasy players. I am cutting out 1/3 of our sample size because many of the lower-ranked players missed time becuase they weren't starting for their team, not because they were injured.  
+```{r}
+AgeData_Top <- AgeData[1:120, ]
+AgeData_Top_Avg <- AgeData_Top |> group_by(Age) |> summarize(MeanG = mean(G))
+ggplot(AgeData_Top_Avg, aes(x = Age, y = MeanG)) + geom_point() + theme_bw()
+```
+Something seems off here.... Removing players who played all 17 
+```{r}
+AgeData_Inj <- AgeData_Top |> group_by(Age) |> filter(G <= 15) |> summarize(MeanG = mean(G)) 
+ggplot(AgeData_Inj, aes(x = Age, y = MeanG)) + geom_point() + geom_smooth(method = "loess", se = FALSE) + theme_bw()
+```
+
+Injured players tend to miss more time as they age, high figures at 32+ likely due to small sample size. Note that players who miss a lot of time won't appear b/c this is only top 120 fantasy players.
+* talk about limitations of dataset
+
+
+## Part 5: Multi-year Analysis
+Positional Value over time (points scored)
+QB play(Yds, Tds, Passer Rating)
+Look at how top 20 changed over time position wise and by scoring
+
+```{r}
+YoYStats <- read_csv("YoYFantasy.csv", show_col_types = FALSE)
+```
+
+
+Finally, I will look at fantasy football data from this year and the last 10 years (including the data we have so far for this season) to see if the value of certain positions has shifted over time.
+
+```{r}
+Yearly_data <- YoYStats
+```
+
+First, lets look at the average points per game of the top 180 fantasy players each year
+```{r}
+Yearly_data_grouped <- Yearly_data |> group_by(Year) |> summarize(AvgPPG = mean(PPR), SePPG = sd(PPR))
+```
+
+```{r}
+ggplot(Yearly_data_grouped, aes(x = as.factor(Year), y = AvgPPG, group = 1)) + geom_point() + coord_cartesian(ylim = c(10, 15)) + theme_bw() + geom_line()
+```
+Boxplot
+```{r}
+Yearly_data_box <- Yearly_data |> group_by(Year)
+ggplot(Yearly_data_box, aes(y = PPR, fill = as.factor(Year))) + geom_boxplot() + facet_wrap(~ Year) + theme_bw()
+```
+
+
+
+.....
+
+Now let's see how different positions scored over time
+
+```{r}
+Yearly_data_p <- Yearly_data |> group_by(Year, FantPos) |> summarize(AvgPPG = mean(PPR))
+ggplot(Yearly_data_p, aes(x = as.factor(Year), y = AvgPPG, color = FantPos, group = FantPos)) + geom_point() + theme_bw() + geom_line()
+```
+Let's look at this again, but only include the top 50 players from each position group each year
+```{r}
+Yearly_data_50 <- Yearly_data |> group_by(Year, FantPos) |> arrange(desc(PPR)) |> slice(1:50) |> summarize(AvgPPG = mean(PPR))
+ggplot(Yearly_data_50, aes(x = as.factor(Year), y = AvgPPG, color = FantPos, group = FantPos)) + geom_point() + theme_bw() + geom_line()
+```
+Look at the difference, let's cut this down again into only the top 25 players per year:
+
+```{r}
+Yearly_data_25 <- Yearly_data |> group_by(Year, FantPos) |> arrange(desc(PPR)) |> slice(1:25) |> summarize(AvgPPG = mean(PPR))
+ggplot(Yearly_data_25, aes(x = as.factor(Year), y = AvgPPG, color = FantPos, group = FantPos)) + geom_point() + theme_bw() + geom_line()
+```
+
+
+How the positions of the top 10 players each year changed over time:
+```{r}
+top_ten_year <- Yearly_data |> group_by(Year) |> arrange(desc(PPR)) |> slice(1:10)
+top_ten_year
+```
+
+```{r}
+ggplot(top_ten_year, aes(x = Year, fill = FantPos)) + geom_histogram(binwidth = 1, color = "black")
+```
+
+Now with top 30:
+```{r}
+top_25_year <- Yearly_data |> group_by(Year) |> arrange(desc(PPR)) |> slice(1:25)
+```
+
+```{r}
+ggplot(top_25_year, aes(x = Year, fill = FantPos)) + geom_histogram(binwidth = 1, color = "black")
+```
+
+

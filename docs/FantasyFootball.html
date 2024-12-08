@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Morgan Gregory - Fantasy Football Project</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Morgan Gregory</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html" rel="" target="">
+ <span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./CombiningDataFrames.html" rel="" target="">
+ <span class="menu-text">Combining Data Frames Exercises</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./FantasyFootball.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Fantasy Football Project</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+    <a href="https://www.linkedin.com/in/morgan-gregory-051441299/" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-linkedin"></i></a>
+    <a href="https://github.com/morgangregory" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#part-1-is-the-best-real-life-team-also-the-best-fantasy-team" id="toc-part-1-is-the-best-real-life-team-also-the-best-fantasy-team" class="nav-link" data-scroll-target="#part-1-is-the-best-real-life-team-also-the-best-fantasy-team">Part 1: Is the best real-life team also the best fantasy team?</a></li>
+  <li><a href="#part-two-is-having-several-players-from-the-same-nfl-teal-on-your-fantasy-team-a-bad-idea" id="toc-part-two-is-having-several-players-from-the-same-nfl-teal-on-your-fantasy-team-a-bad-idea" class="nav-link" data-scroll-target="#part-two-is-having-several-players-from-the-same-nfl-teal-on-your-fantasy-team-a-bad-idea">Part Two: Is having several players from the same NFL teal on your fantasy team a bad idea?</a></li>
+  <li><a href="#part-3-positional-value" id="toc-part-3-positional-value" class="nav-link" data-scroll-target="#part-3-positional-value">Part 3: Positional Value</a></li>
+  <li><a href="#part-4-how-does-age-affect-fantasy-performance" id="toc-part-4-how-does-age-affect-fantasy-performance" class="nav-link" data-scroll-target="#part-4-how-does-age-affect-fantasy-performance">Part 4: How does age affect fantasy performance?</a></li>
+  <li><a href="#part-5-multi-year-analysis" id="toc-part-5-multi-year-analysis" class="nav-link" data-scroll-target="#part-5-multi-year-analysis">Part 5: Multi-year Analysis</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Fantasy Football Project</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>In this project, I want to look into fantasy football statistics to find better strategies when drafting your team and confirm/deny several “myths” among fantasy football players.</p>
+<p>In fantasy football, a group of ~6-14 “owners” take turns drafting teams of real-life NFL players. Each game, individual NFL players are awarded “fantasy points” depending on their performance. Usually, a fantasy team is comprised of 1 Quarterback (QB), 2-3 Running Backs (RB), 2-3 Wide Receivers (WR), 1 Tight End (TE), 1 Defense (D), and 1 Kicker (K). The data I will be using in this analysis uses points per reception (PPR) scoring, which awards an extra point to players every time they catch a pass. For more information on the standard PPR scoring format, <a href="https://support.espn.com/hc/en-us/articles/360003914032-Scoring-Formats">look here</a>.</p>
+<p>The 5 main questions that I want to answer are:<br>
+1: Is the best real-life team also the best fantasy team?<br>
+2: Is having several players from the same NFL teal on your fantasy team a bad idea?<br>
+3: What is the relative value of each position in fantasy football, and how can you use this information to make better drafting decisions?<br>
+4: Is there any correlation between a player’s age and their fantasy football performance? Are older players more likely to get injured during the season?<br>
+5: How has positional value changed over time?</p>
+<p>To do this, I will be using fantasy football scoring data from the 2023 NFL season. In part 5, I will also use data from the past 10 seasons, including the data we have so far for this year.</p>
+<p>Packages:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="part-1-is-the-best-real-life-team-also-the-best-fantasy-team" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-is-the-best-real-life-team-also-the-best-fantasy-team">Part 1: Is the best real-life team also the best fantasy team?</h2>
+<p>My first question is to see how each NFL team would perform based on fantasy football scoring, and compare their performance with the real-life NFL standings from 2023.</p>
+<p>In the 2023 NFL season, the regular season standings looked like this:</p>
+<p>1: Baltimore Ravens<br>
+2: Dallas Cowboys<br>
+3: Detroit Lions<br>
+4: San Francisco 49ers<br>
+5: Buffalo Bills<br>
+6: Cleveland Browns<br>
+7: Kansas City Chiefs<br>
+8: Miami Dolphins<br>
+9: Philadelphia Eagles<br>
+10: Houston Texans<br>
+11: Los Angeles Rams<br>
+12: Pittsburgh Steelers<br>
+13: Cincinnati Bengals<br>
+14: Green Bay Packers<br>
+15: Indianapolis Colts<br>
+16: Jacksonville Jaguars<br>
+17: New Orleans Saints<br>
+18: Seattle Seahawks<br>
+19: Tampa Bay Buccaneers<br>
+20: Denver Broncos<br>
+21: Las Vegas Raiders<br>
+22: Atlanta Falcons<br>
+23: Chicago Bears<br>
+24: Minnesota Vikings<br>
+25: New York Jets<br>
+26: New York Giants<br>
+27: Tennessee Titans<br>
+28: Los Angeles Chargers<br>
+29: Arizona Cardinals<br>
+30: New England Patriots<br>
+31: Washington Commanders<br>
+32: Carolina Panthers</p>
+<p>For this task, I will find the total number of fantasy points scored for each team in the NFL.</p>
+<p>Importing Data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>PointsPerTeam <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"PointsPerTeam.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Grouping by team:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>PointsPerTeam_ByTeam <span class="ot">&lt;-</span> PointsPerTeam <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Tm) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">Total_Points =</span> <span class="fu">sum</span>(PPR)) </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(PointsPerTeam_ByTeam)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  Tm    Total_Points
+  &lt;chr&gt;        &lt;dbl&gt;
+1 2TM           536.
+2 3TM             4 
+3 ARI          1164.
+4 ATL          1255.
+5 BAL          1534.
+6 BUF          1593 </code></pre>
+</div>
+</div>
+<p>Notice that we have 536.1 points coming from players who played for 2 Teams, and 4.0 points coming from players who played for 3 teams. To add these to our totals, I will look at these individual player’s stats on a per-game basis, and add their points to the teams they played for. I will then remove those rows from our data frame.</p>
+<p>Removing Multiple Team listings from data frame:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>PointsPerTeam_ByTeam <span class="ot">&lt;-</span> PointsPerTeam_ByTeam <span class="sc">|&gt;</span> <span class="fu">filter</span>(Tm <span class="sc">!=</span> <span class="st">"3TM"</span> <span class="sc">&amp;</span> Tm <span class="sc">!=</span> <span class="st">"2TM"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Adding points for multi-team players (Had to do this manually):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>PointsPerTeam_ByTeam[<span class="dv">1</span>,<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">1163.7</span> <span class="sc">+</span> <span class="fl">152.9</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>PointsPerTeam_ByTeam[<span class="dv">2</span>,<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">1255.5</span> <span class="sc">+</span> <span class="fl">10.1</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>PointsPerTeam_ByTeam[<span class="dv">3</span>,<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">1534.3</span> <span class="sc">+</span> <span class="fl">1.1</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>PointsPerTeam_ByTeam[<span class="dv">6</span>,<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">1234.4</span> <span class="sc">+</span> <span class="fl">32.5</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>PointsPerTeam_ByTeam[<span class="dv">8</span>,<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">1370.5</span> <span class="sc">+</span> <span class="fl">9.7</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>PointsPerTeam_ByTeam[<span class="dv">11</span>,<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">1690.5</span> <span class="sc">+</span> <span class="fl">5.8</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>PointsPerTeam_ByTeam[<span class="dv">13</span>,<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">1485.3</span> <span class="sc">+</span> .<span class="dv">9</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>PointsPerTeam_ByTeam[<span class="dv">15</span>,<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">1460.9</span> <span class="sc">-</span> <span class="fl">1.2</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>PointsPerTeam_ByTeam[<span class="dv">16</span>,<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">1465.5</span> <span class="sc">+</span> <span class="fl">10.1</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>PointsPerTeam_ByTeam[<span class="dv">18</span>,<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">1485.4</span> <span class="sc">+</span> <span class="fl">20.1</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>PointsPerTeam_ByTeam[<span class="dv">20</span>,<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">1685.4</span> <span class="sc">+</span> <span class="fl">4.2</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>PointsPerTeam_ByTeam[<span class="dv">21</span>,<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">1401.3</span> <span class="sc">+</span> <span class="fl">102.9</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>PointsPerTeam_ByTeam[<span class="dv">22</span>,<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">1488.6</span> <span class="sc">+</span> <span class="fl">21.1</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>PointsPerTeam_ByTeam[<span class="dv">24</span>,<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">1169.3</span> <span class="sc">+</span> <span class="fl">0.2</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>PointsPerTeam_ByTeam[<span class="dv">25</span>,<span class="dv">2</span>] <span class="ot">=</span> <span class="fl">1023.7</span> <span class="sc">+</span> <span class="fl">11.2</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>PointsPerTeam_ByTeam[<span class="dv">27</span>,<span class="dv">2</span>] <span class="ot">=</span> <span class="dv">1204</span> <span class="sc">-</span> <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, since our original dataset didn’t have scoring for Kickers or Defense, we will use <a href="https://fantasy.espn.com/football/leaders?statSplit=lastSeason&amp;scoringPeriodId=0">ESPN’s 2023 Fantasy Scoring</a> to add these values to our data: (They didn’t have a CSV available, so I had to do this manually)</p>
+<p>Defense and Kicker Scoring:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>Def_scoring <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">92</span>, <span class="dv">172</span>, <span class="dv">158</span>, <span class="dv">81</span>, <span class="dv">110</span>, <span class="dv">91</span>, <span class="dv">166</span>, <span class="dv">172</span>, <span class="dv">98</span>, <span class="dv">93</span>, <span class="dv">99</span>, <span class="dv">118</span>, <span class="dv">123</span>, <span class="dv">105</span>, <span class="dv">140</span>, <span class="dv">86</span>, <span class="dv">75</span>, <span class="dv">135</span>, <span class="dv">139</span>, <span class="dv">111</span>, <span class="dv">129</span>, <span class="dv">111</span>, <span class="dv">114</span>, <span class="dv">159</span>, <span class="dv">80</span>, <span class="dv">127</span>, <span class="dv">80</span>, <span class="dv">136</span>, <span class="dv">108</span>, <span class="dv">88</span>, <span class="dv">30</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>K_scoring <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">126</span>, <span class="dv">133</span>, <span class="dv">155</span>, <span class="dv">128</span>, <span class="dv">105</span>, <span class="dv">155</span>, <span class="dv">135</span>, <span class="dv">146</span>, <span class="dv">180</span>, <span class="dv">125</span>, <span class="dv">117</span>, <span class="dv">119</span>, <span class="dv">113</span>, <span class="dv">149</span>, <span class="dv">139</span>, <span class="dv">153</span>, <span class="dv">117</span>, <span class="dv">149</span>, <span class="dv">136</span>, <span class="dv">142</span>, <span class="dv">113</span>, <span class="dv">72</span>, <span class="dv">143</span>, <span class="dv">93</span>, <span class="dv">140</span>, <span class="dv">155</span>, <span class="dv">131</span>, <span class="dv">127</span>, <span class="dv">151</span>, <span class="dv">134</span>, <span class="dv">130</span>, <span class="dv">98</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Calculating each team’s total fantasy score for the 2023 season:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>Total_Score <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(PointsPerTeam_ByTeam, Def_scoring, K_scoring)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Total_Score <span class="ot">&lt;-</span> Total_Score <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">Total_Points_Final =</span> Total_Points <span class="sc">+</span> Def_scoring <span class="sc">+</span> K_scoring) <span class="sc">|&gt;</span> <span class="fu">select</span>(Tm, Total_Points_Final) </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Total_Score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Tm Total_Points_Final
+1 ARI             1492.6
+2 ATL             1490.6
+3 BAL             1862.4
+4 BUF             1879.0
+5 CAR             1316.0
+6 CHI             1531.9</code></pre>
+</div>
+</div>
+<p>To compare the 32 NFL teams’ fantasy performance with their real life performance, we need to add a column with their real life ranking and fantasy ranking to the data frame.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Total_Score<span class="sc">$</span>rank <span class="ot">&lt;-</span> <span class="fu">rank</span>(Total_Score<span class="sc">$</span>Total_Points_Final)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>Real_Ranking <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">11</span>, <span class="dv">32</span>, <span class="dv">28</span>, <span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">27</span>, <span class="dv">31</span>, <span class="dv">13</span>, <span class="dv">30</span>, <span class="dv">19</span>, <span class="dv">23</span>, <span class="dv">18</span>, <span class="dv">17</span>, <span class="dv">26</span>, <span class="dv">5</span>, <span class="dv">22</span>, <span class="dv">12</span>, <span class="dv">25</span>, <span class="dv">9</span>, <span class="dv">16</span>, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">24</span>, <span class="dv">21</span>, <span class="dv">15</span>, <span class="dv">29</span>, <span class="dv">14</span>, <span class="dv">6</span>, <span class="dv">2</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>Total_Score <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Total_Score, Real_Ranking)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>Total_Score</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Tm Total_Points_Final rank Real_Ranking
+1  ARI             1492.6    8            4
+2  ATL             1490.6    7           11
+3  BAL             1862.4   27           32
+4  BUF             1879.0   28           28
+5  CAR             1316.0    1            1
+6  CHI             1531.9   10           10
+7  CIN             1714.7   21           20
+8  CLE             1692.2   17           27
+9  DAL             2046.4   32           31
+10 DEN             1542.2   11           13
+11 DET             1906.3   29           30
+12 GNB             1724.9   23           19
+13 HOU             1717.2   22           23
+14 IND             1640.6   15           18
+15 JAX             1703.7   18           17
+16 KAN             1768.6   26           26
+17 LAC             1652.0   16            5
+18 LAR             1729.5   25           22
+19 LVR             1511.9    9           12
+20 MIA             1970.6   31           25
+21 MIN             1728.2   24            9
+22 NOR             1710.7   20           16
+23 NWE             1404.3    5            3
+24 NYG             1376.5    3            7
+25 NYJ             1333.9    2            8
+26 PHI             1709.3   19           24
+27 PIT             1458.0    6           21
+28 SEA             1589.4   13           15
+29 SFO             1958.7   30           29
+30 TAM             1623.4   14           14
+31 TEN             1398.0    4            6
+32 WAS             1552.6   12            2</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Total_Score, <span class="fu">aes</span>(<span class="at">x =</span> Real_Ranking, <span class="at">y =</span> rank, <span class="at">label =</span> Tm)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Real Life Ranking"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Fantasy Ranking"</span>) <span class="sc">+</span> <span class="fu">geom_text</span>(<span class="at">vjust =</span> <span class="fl">1.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="FantasyFootball_files/figure-html/fig-1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;1: A scatterplot showing the relationship between each NFL team’s real-life ranking and their fantasy ranking. Note: Rank 32 is the best, and rank 1 is the worst.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>As expected, the better real-life team also tends to perform better in fantasy football. Some interesting outliers are the Minnesota Vikings, who are the 9th worst real-life team, but the 9th <em>best</em> fantasy team. Another interesting team is the Pittsburgh Steelers, who are the 12th best real-life team and the 6th worst fantasy team.</p>
+<p>Because many teams have the same win-loss record, lets look at another visualization that compares a team’s number of wins with their total fantasy points scored.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>num_wins <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">7</span>, <span class="dv">13</span>, <span class="dv">11</span>, <span class="dv">2</span>, <span class="dv">7</span>, <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">8</span>, <span class="dv">12</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">8</span>, <span class="dv">11</span>, <span class="dv">7</span>, <span class="dv">9</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">11</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">12</span>, <span class="dv">9</span>, <span class="dv">6</span>, <span class="dv">4</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>Total_Score <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Total_Score, num_wins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Total_Score, <span class="fu">aes</span>(<span class="at">x =</span> num_wins, <span class="at">y =</span> Total_Points_Final, <span class="at">label =</span> Tm)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"# of Wins"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Total Fantasy Points Scored"</span>) <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">16</span>)) <span class="sc">+</span> <span class="fu">geom_text_repel</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="FantasyFootball_files/figure-html/fig-2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;2: A scatterplot showing the relationship between each NFL team’s number of wins and theit total number of fantasy points scored.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Once again, we see that there is a positive correlation between number of wins and the total number of fantasy points scored. Interestingly, there is lots of variance in points scored for teams with the same number of wins. For example, the difference between the best and worst fantasy scorers with 7 wins is ~400 points!</p>
+<p>Although real-life success is a good predictor for fantasy football success on a team-wide scale, the best team in real-life was <em>not</em> the best team in fantasy football in the 2023 regular season. The #1 scoring team in fantasy last year were the Dallas Cowboys, who scored a total of 2046.4 fantasy points while being the #2 ranked real life team. The best real life team were the Baltimore Ravens, who were only the 6th best fantasy team. And if we look at the team who won the Super Bowl last year, the Kansas City Chiefs, they were 7th overall in both fantasy points scored and regular season ranking. I suspect that this discrepancy is due to the imbalance of offensive vs.&nbsp;defensive scoring in fantasy football. In real-life, it could be argued that offense and defense are equally important. In fantasy, however, many formats have individual offensive players but defense is represented by one “player” consisting of a whole team’s defensive performance.</p>
+</section>
+<section id="part-two-is-having-several-players-from-the-same-nfl-teal-on-your-fantasy-team-a-bad-idea" class="level2">
+<h2 class="anchored" data-anchor-id="part-two-is-having-several-players-from-the-same-nfl-teal-on-your-fantasy-team-a-bad-idea">Part Two: Is having several players from the same NFL teal on your fantasy team a bad idea?</h2>
+<p>Next, I want to investigate the impact that players on the same team have on each other in the game of fantasy football. Common advice that you hear when drafting your fantasy football team is “don’t draft a running back and wide receiver from the same team.”</p>
+<p>To determine the impact that a team’s running back and wide receiver have on each other, let’s visualize the relationship between fantasy points scored by the best running backs and wide receivers for each team in the NFL. For this investigation, I will be using players’ points per game played <em>(PPG)</em> as a metric because I want to compare individual players with one another. By using this metric, the data won’t be affected as much by players who may have missed games due to injury.</p>
+<p>Importing Data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>PlayerScoringPerGame <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"PlayerScoringPerGame.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 632 Columns: 5
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (4): Player, Tm, FantPos, -9999
+dbl (1): PPR
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(PlayerScoringPerGame)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  Player                Tm    FantPos   PPR `-9999` 
+  &lt;chr&gt;                 &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;   
+1 Christian McCaffrey*+ SFO   RB       24.5 McCaCh01
+2 CeeDee Lamb*+         DAL   WR       23.7 LambCe00
+3 Josh Allen            BUF   QB       23.1 AlleJo02
+4 Tyreek Hill*+         MIA   WR       23.5 HillTy00
+5 Jalen Hurts*          PHI   QB       21   HurtJa00
+6 Raheem Mostert*       MIA   RB       17.8 MostRa00</code></pre>
+</div>
+</div>
+<p>Cleaning up data set:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>PlayerScoringPerGame <span class="ot">&lt;-</span> PlayerScoringPerGame <span class="sc">|&gt;</span> <span class="fu">select</span>(Player, Tm, FantPos, PPR) <span class="sc">|&gt;</span> <span class="fu">filter</span>(Tm <span class="sc">!=</span> <span class="st">"3TM"</span> <span class="sc">&amp;</span> Tm <span class="sc">!=</span> <span class="st">"2TM"</span>) <span class="sc">|&gt;</span> <span class="fu">filter</span>(FantPos <span class="sc">==</span> <span class="st">"RB"</span> <span class="sc">|</span> FantPos <span class="sc">==</span> <span class="st">"WR"</span>) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(PPR))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finding the best WR and RB from each team:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>BestWrRBPerTeam <span class="ot">&lt;-</span> PlayerScoringPerGame <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Tm, FantPos) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">BestPlayer =</span> <span class="fu">max</span>(PPR, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'Tm'. You can override using the `.groups`
+argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>BestWrRBPerTeam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 64 × 3
+# Groups:   Tm [32]
+   Tm    FantPos BestPlayer
+   &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt;
+ 1 ARI   RB           15.5 
+ 2 ARI   WR            9.62
+ 3 ATL   RB           14.5 
+ 4 ATL   WR           10.9 
+ 5 BAL   RB           11.7 
+ 6 BAL   WR           12.9 
+ 7 BUF   RB           13.7 
+ 8 BUF   WR           16.1 
+ 9 CAR   RB           10.7 
+10 CAR   WR           13.6 
+# ℹ 54 more rows</code></pre>
+</div>
+</div>
+<p>Separating Data Frames By Position Averages and Finding the Differences:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>BestWRPerTeam <span class="ot">&lt;-</span> BestWrRBPerTeam <span class="sc">|&gt;</span> <span class="fu">filter</span>(FantPos <span class="sc">==</span> <span class="st">"WR"</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(BestWRPerTeam) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Tm"</span>, <span class="st">"FantPos"</span>, <span class="st">"BestWRAvg"</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>BestRBPerTeam <span class="ot">&lt;-</span> BestWrRBPerTeam <span class="sc">|&gt;</span> <span class="fu">filter</span>(FantPos <span class="sc">==</span> <span class="st">"RB"</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(BestRBPerTeam) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Tm"</span>, <span class="st">"FantPos"</span>, <span class="st">"BestRBAvg"</span>)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>RB_WR_Comp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(BestWRPerTeam, BestRBPerTeam)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>RB_WR_Comp <span class="ot">&lt;-</span> RB_WR_Comp <span class="sc">|&gt;</span> <span class="fu">select</span>(Tm, BestWRAvg, BestRBAvg) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">Difference =</span> <span class="fu">abs</span>(BestWRAvg <span class="sc">-</span> BestRBAvg))</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>RB_WR_Comp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Tm BestWRAvg BestRBAvg Difference
+1  ARI      9.62     15.50       5.88
+2  ATL     10.90     14.50       3.60
+3  BAL     12.90     11.70       1.20
+4  BUF     16.10     13.70       2.40
+5  CAR     13.60     10.70       2.90
+6  CHI     16.90     10.10       6.80
+7  CIN     16.40     15.70       0.70
+8  CLE     15.10     12.40       2.70
+9  DAL     23.70     13.10      10.60
+10 DEN     11.90     11.20       0.70
+11 DET     20.70     16.10       4.60
+12 GNB     13.60     12.30       1.30
+13 HOU     17.40      9.84       7.56
+14 IND     15.60     15.60       0.00
+15 JAX     13.50     16.60       3.10
+16 KAN     13.30     15.30       2.00
+17 LAC     21.50     13.20       8.30
+18 LAR     17.60     21.30       3.70
+19 LVR     15.60     13.90       1.70
+20 MIA     23.50     17.80       5.70
+21 MIN     20.20      8.32      11.88
+22 NOR     14.50     17.90       3.40
+23 NWE     12.50     12.10       0.40
+24 NYG      8.88     15.90       7.02
+25 NYJ     12.50     17.10       4.60
+26 PHI     17.00     12.50       4.50
+27 PIT     12.30     11.60       0.70
+28 SEA     14.10     13.30       0.80
+29 SFO     16.20     24.50       8.30
+30 TAM     16.60     15.80       0.80
+31 TEN     13.20     14.50       1.30
+32 WAS     12.30     13.20       0.90</code></pre>
+</div>
+</div>
+<p>Visualizations:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(RB_WR_Comp, <span class="fu">aes</span>(<span class="at">x =</span> BestRBAvg, <span class="at">y =</span> BestWRAvg, <span class="at">label =</span> Tm)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_text_repel</span>() <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>, <span class="dv">20</span>, <span class="dv">25</span>)) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>, <span class="dv">20</span>, <span class="dv">25</span>)) <span class="sc">+</span> <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Top RB Points Per Game"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Top WR Points Per Game"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-3" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="FantasyFootball_files/figure-html/fig-3-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;3: A scatterplot showing the relationship between each NFL team’s top fantasy RB and WR.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>In this graph, we can see the difference between each team’s best WR and best RB in average fantasy scoring. The closer a team is to the red line, the more balanced their players’ scoring was. Teams above the red line had their best WR score more than their best RB, and vice versa for teams below the red line. It is quite clear that for specific teams, one position scored much more / less than the other. Let’s take a look at our list of the highest scoring individual players from before.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>PlayerScoringPerGame</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 376 × 4
+   Player                Tm    FantPos   PPR
+   &lt;chr&gt;                 &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;
+ 1 Christian McCaffrey*+ SFO   RB       24.5
+ 2 CeeDee Lamb*+         DAL   WR       23.7
+ 3 Tyreek Hill*+         MIA   WR       23.5
+ 4 Keenan Allen*         LAC   WR       21.5
+ 5 Kyren Williams*       LAR   RB       21.3
+ 6 Amon-Ra St. Brown*+   DET   WR       20.7
+ 7 Justin Jefferson      MIN   WR       20.2
+ 8 Alvin Kamara          NOR   RB       17.9
+ 9 Raheem Mostert*       MIA   RB       17.8
+10 Puka Nacua*           LAR   WR       17.6
+# ℹ 366 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(RB_WR_Comp<span class="sc">$</span>BestRBAvg, RB_WR_Comp<span class="sc">$</span>BestWRAvg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.03173655</code></pre>
+</div>
+</div>
+<p>Here, we can pinpoint the players causing these large discrepancies in RB and WR average for their team. Players like Christian McCaffrey and CeeDee Lamb had a much higher average score than their WR/RB counterpart, so drafting other players on their team likely will not be a great idea. This is true for several other star players on the graph, with the most egregious example being Minnesota’s Justin Jefferson, who averaged 11.88 more points than the top running back on his team. A key similarity between all the players mentioned previously is that they are known to be huge stars on their team, and are drafted very early in most fantasy drafts. So, drafting multiple players on the same team is only bad if it is the same team as a star player (eg. your first round pick.) After the top ~7-8 star players, the differences get much smaller between teams’ best RB and WR. We see that the correlation between the two is 0.0317, which is very close to 0. So, in conclusion, as long as you do not draft teammates of a star player, having multiple players from one team likely won’t impact your fantasy team’s performance on a season-wide scale.</p>
+</section>
+<section id="part-3-positional-value" class="level2">
+<h2 class="anchored" data-anchor-id="part-3-positional-value">Part 3: Positional Value</h2>
+<p>Next, I would like to explore the value of each (offensive) position in Fantasy Football. First, let’s look at how many points each position scores, on average. Since most fantasy football leagues have 8-12 people, each with ~12-15 players on their team, I will only be looking at the top 180 fantasy scorers. I am excluding Kickers and Defense for this ranking because in general, these positions are drafted much later in fantasy drafts and have much less of an impact on the overall strategy of drafting.</p>
+<p>Importing Data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>PosnValue <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"PosnValue.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Cleaning and Sorting Data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>Position_data <span class="ot">&lt;-</span> PosnValue <span class="sc">|&gt;</span> <span class="fu">select</span>(Rk, FantPos, PPR) <span class="sc">|&gt;</span> <span class="fu">group_by</span>(FantPos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>First, let’s look at the distribution of points per game for each position.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Position_data, <span class="fu">aes</span>(<span class="at">x =</span> PPR, <span class="at">fill =</span> FantPos)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>FantPos) <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Points Per Game (PPG)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Count"</span>) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-4" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="FantasyFootball_files/figure-html/fig-4-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;4: Bar charts showing distribution of points per game for each player, separated by postion.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>We can see that WRs and QBs have more players scoring in the 20+ range, and there appears to be two RBs who are the only players at their position scoring 20+ PPG. There appears to be more WRs in our dataset overall, which makes sense because NFL teams tend to have 4-7 WRs on their team, and only 2-4 of the other 3 positions. TEs are the lowest scoring position by a wide margin, with no TEs scoring more than 15 PPG. Here is another look at this data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Position_data, <span class="fu">aes</span>(<span class="at">y =</span> PPR, <span class="at">x =</span> FantPos, <span class="at">fill =</span> FantPos)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Position"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Points Per Game (PPG)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-5" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="FantasyFootball_files/figure-html/fig-5-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;5: Side-by-side box plots showing the distribution of PPG for each position.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>QB has the highest Q1, Median, and Q3 PPG out of the 4 positions, but notice that the highest scoring individual player is a RB, followed by a WR. The median PPG is just about even between RBs and WRs, and once again we see that TEs are the lowest scoring position overall. The best TEs do tend to score more than the median RB and WR, however.</p>
+<p>Now, let’s look at the relationship between position and overall fantasy ranking. This fantasy ranking is based on the number of points a player scores and how much better they are than an average player at their position.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Position_data, <span class="fu">aes</span>(<span class="at">x =</span> Rk, <span class="at">y =</span> PPR, <span class="at">color =</span> FantPos)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.title=</span><span class="fu">element_blank</span>()) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Overall Fantasy Rank"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Points Per Game (PPG)"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-6" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="FantasyFootball_files/figure-html/fig-6-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;6: A scatterplot showing the relationship between a player’s overall fantasy ranking and their PPG, colored by their position. Note: In this graph, rank 1 is the best, and rank 180 is the worst.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The top ranked players tend to be mostly RB’s and WR’s, with a handful of QB’s and TE’s mixed in. Interestingly, there appears to be a sizeable gap between the top ~8 TE’s and the rest of the TE’s appearing in the top 180. Since there are a larger number of WR’s who average 10+ points than there are RB’s, it may be a good idea to prioritize RB’s in your fantasy football draft. For TE’s, it makes sense to ensure you get a top-8 player, because the rankings and average points scored per game decrease significantly after that range.</p>
+<p>Next, I want to use our data to determine the best drafting strategies for the QB position. A common “myth” in fantasy football is that people who draft a QB very early tend to be inexperienced players. Let’s find out if drafting a QB early is truly a beginner pitfall, or if there are some scenarios where it is a viable strategy.</p>
+<p>Since most fantasy football leagues cap out at ~14 players and only allow for 1 starting QB at a time, I will filter the data for only the top 15 fantasy QB’s.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>QB_data <span class="ot">&lt;-</span> PosnValue <span class="sc">|&gt;</span> <span class="fu">filter</span>(FantPos <span class="sc">==</span> <span class="st">"QB"</span>) <span class="sc">|&gt;</span> <span class="fu">select</span>(Rk, Player, PPR) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(Rk)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>QB_data <span class="ot">&lt;-</span> QB_data[<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>,]</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>QB_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 15 × 3
+      Rk Player              PPR
+   &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt;
+ 1     3 Josh Allen         23.1
+ 2     5 Jalen Hurts*       21  
+ 3     8 Dak Prescott*      20.2
+ 4    10 Lamar Jackson*+    20.7
+ 5    18 Jordan Love        18.8
+ 6    31 Brock Purdy*       18.5
+ 7    40 Jared Goff         17  
+ 8    50 Patrick Mahomes*   17.5
+ 9    58 C.J. Stroud*       18.4
+10    60 Baker Mayfield*    16.1
+11    66 Tua Tagovailoa*    15.9
+12    76 Trevor Lawrence    16.4
+13    77 Sam Howell         15.1
+14    78 Russell Wilson     17.1
+15    79 Matthew Stafford*  16.2</code></pre>
+</div>
+</div>
+<p>Now that we know where our cutoffs are for the top, middle, and bottom tier QB’s, we can add a new column with each player’s tier.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>Tier <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Top"</span>, <span class="st">"Top"</span>, <span class="st">"Top"</span>, <span class="st">"Top"</span>, <span class="st">"Top"</span>, <span class="st">"Mid"</span>, <span class="st">"Mid"</span>, <span class="st">"Mid"</span>, <span class="st">"Mid"</span>, <span class="st">"Mid"</span>, <span class="st">"Bottom"</span>, <span class="st">"Bottom"</span>, <span class="st">"Bottom"</span>, <span class="st">"Bottom"</span>, <span class="st">"Bottom"</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>QB_data_tiered <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(QB_data, Tier)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>QB_data_tiered</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Rk            Player  PPR   Tier
+1   3        Josh Allen 23.1    Top
+2   5      Jalen Hurts* 21.0    Top
+3   8     Dak Prescott* 20.2    Top
+4  10   Lamar Jackson*+ 20.7    Top
+5  18       Jordan Love 18.8    Top
+6  31      Brock Purdy* 18.5    Mid
+7  40        Jared Goff 17.0    Mid
+8  50  Patrick Mahomes* 17.5    Mid
+9  58      C.J. Stroud* 18.4    Mid
+10 60   Baker Mayfield* 16.1    Mid
+11 66   Tua Tagovailoa* 15.9 Bottom
+12 76   Trevor Lawrence 16.4 Bottom
+13 77        Sam Howell 15.1 Bottom
+14 78    Russell Wilson 17.1 Bottom
+15 79 Matthew Stafford* 16.2 Bottom</code></pre>
+</div>
+</div>
+<p>Box Plots:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(QB_data_tiered, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(Tier), <span class="at">y =</span> PPR)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Tier"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Points Per Game (PPG)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-7" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="FantasyFootball_files/figure-html/fig-7-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;7: Side-by-side box plots showing the distribution in PPG for the top 1-5 QBs, top 6-10 QBs, and top 11-15 QBs.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Here, we can see the separation between the top 5 QBs and QBs ranked 6-15. We see that there is both a high and a low outlier in the top-5 QBs, and that one of the bottom-tier QBs is ranked higher than one of the middle-tier QBs. (This is likely due to an injury, as the bottom-tier QB missed games and scored a lower total number of points, but they had a higher average PPG than the mid-tier QB.) We can also see that the difference between the median bottom-tier and mid-tier QB is only ~1.5 points, while the difference between the median middle-tier QB and top-tier QB is ~3 points. Let’s change our tier system to just two tiers to better reflect the data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>QB_data_tiered<span class="sc">$</span>Tier <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Top"</span>, <span class="st">"Top"</span>, <span class="st">"Top"</span>, <span class="st">"Top"</span>, <span class="st">"Not"</span>, <span class="st">"Not"</span>, <span class="st">"Not"</span>, <span class="st">"Not"</span>, <span class="st">"Not"</span>, <span class="st">"Not"</span>, <span class="st">"Not"</span>, <span class="st">"Not"</span>, <span class="st">"Not"</span>, <span class="st">"Not"</span>, <span class="st">"Not"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>New Box Plots:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(QB_data_tiered, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(Tier), <span class="at">y =</span> PPR)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Tier"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Points Per Game (PPG)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-8" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="FantasyFootball_files/figure-html/fig-8-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;8: Side-by-side boxplots showing the distribution in PPG for the top 1-4 QBs and the top 5-15 QBs.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>There is a large separation between the top 4 QB’s and the rest of the top 15. Based on our data, it makes sense to draft a QB early if you are getting one of the top 4 in the league, but after that point, the difference between the next-best QB’s is less pronounced. So, if you miss out on drafting one of the best QB’s, there is no need to rush in drafting your QB.</p>
+<p>In conclusion, drafting a QB very early can be a valid strategy if you get one of the top scoring QBs, but when the draft takes place, there is no way of knowing which QB will perform the best or if the top performers from last year will put up the same numbers in the following season. This strategy is ultimately a gamble, but since the top scoring QBs are on par with the top scoring RBs and WRs as we saw before, it could pay off if you pick the right player.</p>
+</section>
+<section id="part-4-how-does-age-affect-fantasy-performance" class="level2">
+<h2 class="anchored" data-anchor-id="part-4-how-does-age-affect-fantasy-performance">Part 4: How does age affect fantasy performance?</h2>
+<p>For this, we will look at the top 180 players based on total fantasy points scored.</p>
+<p>Importing &amp; Cleaning Data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>AgeData <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"AgeData.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>AgeData <span class="ot">&lt;-</span> AgeData[<span class="dv">1</span><span class="sc">:</span><span class="dv">180</span>, ]</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(AgeData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  FantPos   Age     G    GS   PPR
+  &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 RB         27    16    16  391.
+2 WR         24    17    17  403.
+3 QB         27    17    17  393.
+4 WR         29    16    16  376.
+5 QB         25    17    17  357.
+6 RB         31    15    15  268.</code></pre>
+</div>
+</div>
+<p>First, let’s look at the overall age distribution in the NFL:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(AgeData, <span class="fu">aes</span>(<span class="at">x =</span> Age, <span class="at">fill =</span> FantPos)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"Black"</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="FantasyFootball_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Let’s look at how many points players score based on their age:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(AgeData, <span class="fu">aes</span>(<span class="at">x =</span> Age, <span class="at">y =</span> PPR)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="FantasyFootball_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Another look, using average fantasy points scored for each age.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>AgeAverages <span class="ot">&lt;-</span> AgeData <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Age) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">MeanScore =</span> <span class="fu">mean</span>(PPR))</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(AgeAverages, <span class="fu">aes</span>(<span class="at">x =</span> Age, <span class="at">y =</span> MeanScore)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"loess"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="FantasyFootball_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Let’s see if this is different based on position:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(AgeData, <span class="fu">aes</span>(<span class="at">x =</span> Age, <span class="at">y =</span> PPR, <span class="at">color =</span> FantPos)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span> FantPos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="FantasyFootball_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>AgeAverages_p <span class="ot">&lt;-</span> AgeData <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Age, FantPos) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">MeanScore =</span> <span class="fu">mean</span>(PPR))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'Age'. You can override using the `.groups`
+argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(AgeAverages_p, <span class="fu">aes</span>(<span class="at">x =</span> Age, <span class="at">y =</span> MeanScore, <span class="at">color =</span> FantPos)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"loess"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="FantasyFootball_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Next, let’s see how injuries effect players as they age. For this, I will only be looking at the top 120 fantasy players. I am cutting out 1/3 of our sample size because many of the lower-ranked players missed time becuase they weren’t starting for their team, not because they were injured.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>AgeData_Top <span class="ot">&lt;-</span> AgeData[<span class="dv">1</span><span class="sc">:</span><span class="dv">120</span>, ]</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>AgeData_Top_Avg <span class="ot">&lt;-</span> AgeData_Top <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Age) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">MeanG =</span> <span class="fu">mean</span>(G))</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(AgeData_Top_Avg, <span class="fu">aes</span>(<span class="at">x =</span> Age, <span class="at">y =</span> MeanG)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="FantasyFootball_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Something seems off here…. Removing players who played all 17</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>AgeData_Inj <span class="ot">&lt;-</span> AgeData_Top <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Age) <span class="sc">|&gt;</span> <span class="fu">filter</span>(G <span class="sc">&lt;=</span> <span class="dv">15</span>) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">MeanG =</span> <span class="fu">mean</span>(G)) </span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(AgeData_Inj, <span class="fu">aes</span>(<span class="at">x =</span> Age, <span class="at">y =</span> MeanG)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"loess"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="FantasyFootball_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Injured players tend to miss more time as they age, high figures at 32+ likely due to small sample size. Note that players who miss a lot of time won’t appear b/c this is only top 120 fantasy players. * talk about limitations of dataset</p>
+</section>
+<section id="part-5-multi-year-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="part-5-multi-year-analysis">Part 5: Multi-year Analysis</h2>
+<p>Positional Value over time (points scored) QB play(Yds, Tds, Passer Rating) Look at how top 20 changed over time position wise and by scoring</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>YoYStats <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"YoYFantasy.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, I will look at fantasy football data from this year and the last 10 years (including the data we have so far for this season) to see if the value of certain positions has shifted over time.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>Yearly_data <span class="ot">&lt;-</span> YoYStats</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>First, lets look at the average points per game of the top 180 fantasy players each year</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>Yearly_data_grouped <span class="ot">&lt;-</span> Yearly_data <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Year) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">AvgPPG =</span> <span class="fu">mean</span>(PPR), <span class="at">SePPG =</span> <span class="fu">sd</span>(PPR))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Yearly_data_grouped, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.factor</span>(Year), <span class="at">y =</span> AvgPPG, <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">15</span>)) <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="FantasyFootball_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Boxplot</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>Yearly_data_box <span class="ot">&lt;-</span> Yearly_data <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Year)</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Yearly_data_box, <span class="fu">aes</span>(<span class="at">y =</span> PPR, <span class="at">fill =</span> <span class="fu">as.factor</span>(Year))) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span> Year) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="FantasyFootball_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>…..</p>
+<p>Now let’s see how different positions scored over time</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>Yearly_data_p <span class="ot">&lt;-</span> Yearly_data <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Year, FantPos) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">AvgPPG =</span> <span class="fu">mean</span>(PPR))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'Year'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Yearly_data_p, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.factor</span>(Year), <span class="at">y =</span> AvgPPG, <span class="at">color =</span> FantPos, <span class="at">group =</span> FantPos)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="FantasyFootball_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Let’s look at this again, but only include the top 50 players from each position group each year</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>Yearly_data_50 <span class="ot">&lt;-</span> Yearly_data <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Year, FantPos) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(PPR)) <span class="sc">|&gt;</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">AvgPPG =</span> <span class="fu">mean</span>(PPR))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'Year'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Yearly_data_50, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.factor</span>(Year), <span class="at">y =</span> AvgPPG, <span class="at">color =</span> FantPos, <span class="at">group =</span> FantPos)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="FantasyFootball_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Look at the difference, let’s cut this down again into only the top 25 players per year:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>Yearly_data_25 <span class="ot">&lt;-</span> Yearly_data <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Year, FantPos) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(PPR)) <span class="sc">|&gt;</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">AvgPPG =</span> <span class="fu">mean</span>(PPR))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'Year'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Yearly_data_25, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.factor</span>(Year), <span class="at">y =</span> AvgPPG, <span class="at">color =</span> FantPos, <span class="at">group =</span> FantPos)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="FantasyFootball_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>How the positions of the top 10 players each year changed over time:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>top_ten_year <span class="ot">&lt;-</span> Yearly_data <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Year) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(PPR)) <span class="sc">|&gt;</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>top_ten_year</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 100 × 3
+# Groups:   Year [10]
+   FantPos   PPR  Year
+   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+ 1 WR       24.3  2015
+ 2 QB       24.3  2015
+ 3 WR       23.4  2015
+ 4 QB       21.5  2015
+ 5 WR       21.3  2015
+ 6 WR       21.2  2015
+ 7 RB       21.1  2015
+ 8 QB       21    2015
+ 9 WR       20.7  2015
+10 QB       20.3  2015
+# ℹ 90 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(top_ten_year, <span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">fill =</span> FantPos)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="FantasyFootball_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Now with top 30:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>top_25_year <span class="ot">&lt;-</span> Yearly_data <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Year) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(PPR)) <span class="sc">|&gt;</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(top_25_year, <span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">fill =</span> FantPos)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="FantasyFootball_files/figure-html/unnamed-chunk-47-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
