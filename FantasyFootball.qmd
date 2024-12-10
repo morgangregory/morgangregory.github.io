@@ -441,7 +441,6 @@ In conclusion, it seems as though the positional value of QBs has remained fairl
 ## References:
 
 Data: 
-[Pro Football Reference](https://www.pro-football-reference.com/)
-[ESPN Fantasy](https://fantasy.espn.com/football/leaders?statSplit=lastSeason&scoringPeriodId=0&lineupSlot=17)
+[Pro Football Reference](https://www.pro-football-reference.com/)  
 
-a
+[ESPN Fantasy](https://fantasy.espn.com/football/leaders?statSplit=lastSeason&scoringPeriodId=0&lineupSlot=17)
