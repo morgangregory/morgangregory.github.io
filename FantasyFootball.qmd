@@ -295,62 +295,84 @@ head(AgeData)
 ```
 First, let's look at the overall age distribution in the NFL:
 ```{r}
-ggplot(AgeData, aes(x = Age, fill = FantPos)) + geom_histogram(binwidth = 1, color = "Black") + theme_bw()
+#| label: fig-9
+#| fig-cap: "A histogram showing the distribution of ages of NFL players, colored by their position."
+ggplot(AgeData, aes(x = Age, fill = FantPos)) + geom_histogram(binwidth = 1, color = "Black") + theme_bw() + ylab("Count")
 ```
+Age peaks at 24 and generally trails off as age increases. The position with the oldest players is QB, followed by TE. Interestingly, there is only 1 RB older than 30 in our dataset, which shows that the careers of this position are generally shorter than other positions. 
 
 Let's look at how many points players score based on their age:
 
 ```{r}
-ggplot(AgeData, aes(x = Age, y = PPR)) + geom_point() + geom_smooth(method = "lm", se = FALSE) + theme_bw()
+#| message: false
+#| label: fig-10
+#| fig-cap: "A scatterplot showing the relationship between age and total fantasy points scored in 2023. A linear regression line shows a very weak positive correlation between age and total points scored."
+ggplot(AgeData, aes(x = Age, y = PPR)) + geom_point() + geom_smooth(method = "lm", se = FALSE) + theme_bw() + ylab("Total Fantasy Points Scored")
 ```
-Another look, using average fantasy points scored for each age.
+There is a very weak positive relationship between age and total fantasy points scored, but there is barely any correlation between the two variables.
+
+
+Let's take another look using average fantasy points scored for each age.
 
 ```{r}
+#| warning: false
+#| label: fig-11
+#| fig-cap: "A scatterplot showing the relationship between age and the PPG for NFL players in 2023. A blue loess line is added."
 AgeAverages <- AgeData |> group_by(Age) |> summarize(MeanScore = mean(PPR))
-ggplot(AgeAverages, aes(x = Age, y = MeanScore)) + geom_point() + theme_bw() + geom_smooth(method = "loess", se = FALSE)
+ggplot(AgeAverages, aes(x = Age, y = MeanScore)) + geom_point() + theme_bw() + geom_smooth(method = "loess", se = FALSE) + ylab("Points Per Game (PPG)")
 ```
+When we use the average points scored per game, we see that the value slowly increases before peaking at ~30, and then drops off. 
+
 
 Let's see if this is different based on position:
 
 ```{r}
-ggplot(AgeData, aes(x = Age, y = PPR, color = FantPos)) + geom_point() + geom_smooth(method = "lm", se = FALSE) + theme_bw() + facet_wrap(~ FantPos)
+#| message: false
+#| label: fig-12
+#| fig-cap: "Scatterplots showing the relationship between age and total fantasy points scored, separated by position. Regression lines are added to each plot."
+ggplot(AgeData, aes(x = Age, y = PPR, color = FantPos)) + geom_point() + geom_smooth(method = "lm", se = FALSE) + theme_bw() + facet_wrap(~ FantPos) + ylab("Total Fantasy Points Scored")
 ```
+For WRs and RBs, points scored slightly trend upward with age, and for QBs, points scored slightly trends down. TEs stay just about the same. All of these relationships are very weak, however, so age does not have a very strong impact on fantasy points scored.
+
+Again, with average points per game separated by position. 
+
 ```{r}
+#| message: false
+#| label: fig-13
+#| fig-cap: "A scatterplot showing the relationship between age and PPG, colored by position. Loess lines are added for each position group."
 AgeAverages_p <- AgeData |> group_by(Age, FantPos) |> summarize(MeanScore = mean(PPR))
-ggplot(AgeAverages_p, aes(x = Age, y = MeanScore, color = FantPos)) + geom_point() + geom_smooth(method = "loess", se = FALSE) + theme_bw()
+ggplot(AgeAverages_p, aes(x = Age, y = MeanScore, color = FantPos)) + geom_point() + geom_smooth(method = "loess", se = FALSE) + theme_bw() + ylab("Points Per Game (PPG)")
 ```
+Based on this plot, the PPG for each position based on age varies for each position. The QBs have a concave down parabola, the RBs have a roughly concave up parabole, the WRs trend upwards, dip down at age ~26, and then trend upward again, and the TEs are generally all over the place. These lines are generally not very accurate due to our lack of data points, as we can see that some of the points are very far away from their associated loess lines. These wildly different trends are interesting, nonetheless. 
 
 
-
-Next, let's see how injuries effect players as they age. For this, I will only be looking at the top 120 fantasy players. I am cutting out 1/3 of our sample size because many of the lower-ranked players missed time becuase they weren't starting for their team, not because they were injured.  
+Next, let's see how injuries effect players as they age. For this, I will only be looking at the top 120 fantasy players. I am cutting out 1/3 of our sample size because many of the lower-ranked players missed time because they weren't starting for their team, not because they were injured. A limitation of the dataset is that I do not have information on why a player didn't play a game, only the number of games they played in. 
 ```{r}
+#| label: fig-14
+#| fig-cap: "A scatterplot showing the relationship between age and mean number of games played."
 AgeData_Top <- AgeData[1:120, ]
 AgeData_Top_Avg <- AgeData_Top |> group_by(Age) |> summarize(MeanG = mean(G))
-ggplot(AgeData_Top_Avg, aes(x = Age, y = MeanG)) + geom_point() + theme_bw()
+ggplot(AgeData_Top_Avg, aes(x = Age, y = MeanG)) + geom_point() + theme_bw() + ylab("Mean # of Games Played")
 ```
-Something seems off here.... Removing players who played all 17 
+Mean number of games played trends down until age 28, before spiking back up again. To get a better look at injuries specifically, I will filter out players who missed 0 or 1 game. This is more likely to capture injury trends, since a player missing more than 1 game is most commonly due to a prolonged injury.
 ```{r}
+#| warning: false
+#| label: fig-15
+#| fig-cap: "A scatterplot showing the realtionship between age and mean number of games played for players who missed 2 or more games. A loess line is added."
 AgeData_Inj <- AgeData_Top |> group_by(Age) |> filter(G <= 15) |> summarize(MeanG = mean(G)) 
-ggplot(AgeData_Inj, aes(x = Age, y = MeanG)) + geom_point() + geom_smooth(method = "loess", se = FALSE) + theme_bw()
+ggplot(AgeData_Inj, aes(x = Age, y = MeanG)) + geom_point() + geom_smooth(method = "loess", se = FALSE) + theme_bw() + ylab("Mean # of Games Played")
 ```
+Based on this scatterplot, it looks like players who get injured are more likely to miss more time the older they are, up until age ~28. I suspect that the spike in games played among players who get injured after age ~30 is due to the small sample size of players who are age 30+ as we saw in our previous histogram. Also note that this dataset is only consisting of the top 120 overall fantasy players, so players who have a very long / season ending injury would not show up here. 
 
-Injured players tend to miss more time as they age, high figures at 32+ likely due to small sample size. Note that players who miss a lot of time won't appear b/c this is only top 120 fantasy players.
-* talk about limitations of dataset
+In conclusion, it seems as though age has little to no impact on fantasy points scored, regardless of position. There is some evidence that out of fantasy-relevant players who get injured, they tend to miss more time the older they are. Overall, you shouldn't be too afraid to draft older players in fantasy football, as they tend to score just about the same number of points than younger players.
 
 
 ## Part 5: Multi-year Analysis
-Positional Value over time (points scored)
-QB play(Yds, Tds, Passer Rating)
-Look at how top 20 changed over time position wise and by scoring
-
-```{r}
-YoYStats <- read_csv("YoYFantasy.csv", show_col_types = FALSE)
-```
-
-
 Finally, I will look at fantasy football data from this year and the last 10 years (including the data we have so far for this season) to see if the value of certain positions has shifted over time.
 
+Importing Data
 ```{r}
+YoYStats <- read_csv("YoYFantasy.csv", show_col_types = FALSE)
 Yearly_data <- YoYStats
 ```
 
@@ -360,54 +382,65 @@ Yearly_data_grouped <- Yearly_data |> group_by(Year) |> summarize(AvgPPG = mean(
 ```
 
 ```{r}
-ggplot(Yearly_data_grouped, aes(x = as.factor(Year), y = AvgPPG, group = 1)) + geom_point() + coord_cartesian(ylim = c(10, 15)) + theme_bw() + geom_line()
+#| label: fig-16
+#| fig-cap: "A line graph showing the average PPG of the top 180 fantasy players over the last 10 years."
+ggplot(Yearly_data_grouped, aes(x = as.factor(Year), y = AvgPPG, group = 1)) + geom_point() + coord_cartesian(ylim = c(10, 15)) + theme_bw() + geom_line() + xlab("Year") + ylab("Average PPG of Top 180 Fantasy Players")
 ```
-Boxplot
+PPG has stayed relatively consistent throughout the years, with an low point in 2017, and a peak in 2020.
+
+Here's another look at this data in with box plots.
 ```{r}
+#| label: fig-17
+#| fig-cap: "Side-by-side box plots showing the distribution of PPG for the top 180 players in each of the last 10 years."
 Yearly_data_box <- Yearly_data |> group_by(Year)
-ggplot(Yearly_data_box, aes(y = PPR, fill = as.factor(Year))) + geom_boxplot() + facet_wrap(~ Year) + theme_bw()
+ggplot(Yearly_data_box, aes(y = PPR, fill = as.factor(Year))) + geom_boxplot() + facet_wrap(~ Year) + theme_bw() + theme(legend.position="none") + ylab("Points Per Game (PPG)")
 ```
+2015, 2018, and 2023 are the only years with no outliers. The only year to have a player eclipse 30 PPG is 2020, with 2019 being very close.
 
 
-
-.....
-
-Now let's see how different positions scored over time
+Now let's see how different positions have scored over time
 
 ```{r}
+#| warning: false
+#| message: false
+#| label: fig-18
+#| fig-cap: "A line graph showing the average PPG among each position group over the last 10 years."
 Yearly_data_p <- Yearly_data |> group_by(Year, FantPos) |> summarize(AvgPPG = mean(PPR))
-ggplot(Yearly_data_p, aes(x = as.factor(Year), y = AvgPPG, color = FantPos, group = FantPos)) + geom_point() + theme_bw() + geom_line()
+ggplot(Yearly_data_p, aes(x = as.factor(Year), y = AvgPPG, color = FantPos, group = FantPos)) + geom_point() + theme_bw() + geom_line() + ylab("Average PPG") + xlab("Year")
 ```
-Let's look at this again, but only include the top 50 players from each position group each year
-```{r}
-Yearly_data_50 <- Yearly_data |> group_by(Year, FantPos) |> arrange(desc(PPR)) |> slice(1:50) |> summarize(AvgPPG = mean(PPR))
-ggplot(Yearly_data_50, aes(x = as.factor(Year), y = AvgPPG, color = FantPos, group = FantPos)) + geom_point() + theme_bw() + geom_line()
-```
-Look at the difference, let's cut this down again into only the top 25 players per year:
-
-```{r}
-Yearly_data_25 <- Yearly_data |> group_by(Year, FantPos) |> arrange(desc(PPR)) |> slice(1:25) |> summarize(AvgPPG = mean(PPR))
-ggplot(Yearly_data_25, aes(x = as.factor(Year), y = AvgPPG, color = FantPos, group = FantPos)) + geom_point() + theme_bw() + geom_line()
-```
+Over the last 10 years, QBs have consistently been the top scoring position. The number two spot has primarily gone to WR, with RBs taking over in 2018, 2019 (barely), and most recently, in 2024. TEs have remained the lowest scoring position, but they have been on an upward trend since 2022. Interestingly, TEs were very close to RBs in 2015, but since then the gap between TE and the next best scoring position has been greater. 
 
 
-How the positions of the top 10 players each year changed over time:
+The most important aspect of a fantasy football draft is the first round. A good first round pick will set you up well for the season, while a sub-par pick is a detriment to the strength of your team. So, let's look how the positions of the top 10 fantasy players each year has changed over time to get a better sense of what position should be targeted in the first round.
 ```{r}
 top_ten_year <- Yearly_data |> group_by(Year) |> arrange(desc(PPR)) |> slice(1:10)
 top_ten_year
 ```
 
 ```{r}
-ggplot(top_ten_year, aes(x = Year, fill = FantPos)) + geom_histogram(binwidth = 1, color = "black")
+#| label: fig-19
+#| fig-cap: "Side-by-side histograms showing the number of players of each position in the top 10 for each year."
+ggplot(top_ten_year, aes(x = Year, fill = FantPos)) + geom_histogram(binwidth = 1, color = "black") + scale_x_continuous(breaks = seq(2015, 2024, 1)) + theme_bw() + scale_y_continuous(breaks = seq(0, 10, 1))
 ```
+QBs generally make up ~40-50% of the top 10 each year, with this percentage peaking at 7-% in 2019. The prevalence of RB/WR in the top 10 has varied over the years, with there being many more WRs in 2015 before RBs took over for several years after that. From 2022-2023 WRs are once again more common than RBs in the top 10, with there being an even split so far in 2020.
 
-Now with top 30:
+Let's look at this again, but with the top 24 players each year:
 ```{r}
-top_25_year <- Yearly_data |> group_by(Year) |> arrange(desc(PPR)) |> slice(1:25)
+top_24_year <- Yearly_data |> group_by(Year) |> arrange(desc(PPR)) |> slice(1:24)
 ```
 
 ```{r}
-ggplot(top_25_year, aes(x = Year, fill = FantPos)) + geom_histogram(binwidth = 1, color = "black")
+#| label: fig-20
+#| fig-cap: "Side-by-side histograms showing the number of players of each position in the top 24 for each year."
+ggplot(top_24_year, aes(x = Year, fill = FantPos)) + geom_histogram(binwidth = 1, color = "black") +  scale_x_continuous(breaks = seq(2015, 2024, 1)) + theme_bw() + scale_y_continuous(breaks = seq(0, 24, 2))
 ```
+When we change our bounds to the top 24 players each year, we see that our trend from before continues. A couple TEs are even in the top 24 in 2020 and 2022! It looks like WRs were popular in 2015, with RBs taking over in the late 2010's, and WRs taking back over in the 2020's. 
 
+In conclusion, it seems as though the positional value of QBs has remained fairly consistent, and the value of RBs/WRs has been cyclical in nature over the last 10 years. Based on our data so far for 2024, it looks like running backs are back on the rise after several seasons of WRs making up more of the top 10 & top 24. Sadly for TEs, it is almost never a good idea to draft them early, as only 2 TEs have been in the top 24 fantasy scorers over the last 10 years.
+
+## References:
+
+Data: 
+[Pro Football Reference](https://www.pro-football-reference.com/)
+[ESPN Fantasy](https://fantasy.espn.com/football/leaders?statSplit=lastSeason&scoringPeriodId=0&lineupSlot=17)
 
