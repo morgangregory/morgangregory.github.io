@@ -10,7 +10,7 @@ In fantasy football, a group of ~6-14 "owners" take turns drafting teams of real
 
 The 5 main questions that I want to answer are:      
 1: Is the best real-life team also the best fantasy team?    
-2: Is having several players from the same NFL teal on your fantasy team a bad idea?    
+2: Is having several players from the same NFL team on your fantasy team a bad idea?    
 3: What is the relative value of each position in fantasy football, and how can you use this information to make better drafting decisions?  
 4: Is there any correlation between a player's age and their fantasy football performance? Are older players more likely to get injured during the season?  
 5: How has positional value changed over time?   
@@ -156,7 +156,7 @@ Once again, we see that there is a positive correlation between number of wins a
 
 Although real-life success is a good predictor for fantasy football success on a team-wide scale, the best team in real-life was *not* the best team in fantasy football in the 2023 regular season. The #1 scoring team in fantasy last year were the Dallas Cowboys, who scored a total of 2046.4 fantasy points while being the #2 ranked real life team. The best real life team were the Baltimore Ravens, who were only the 6th best fantasy team. And if we look at the team who won the Super Bowl last year, the Kansas City Chiefs, they were 7th overall in both fantasy points scored and regular season ranking. I suspect that this discrepancy is due to the imbalance of offensive vs. defensive scoring in fantasy football. In real-life, it could be argued that offense and defense are equally important. In fantasy, however, many formats have individual offensive players but defense is represented by one "player" consisting of a whole team's defensive performance. 
 
-## Part Two: Is having several players from the same NFL teal on your fantasy team a bad idea?
+## Part Two: Is having several players from the same NFL team on your fantasy team a bad idea?
 
 Next, I want to investigate the impact that players on the same team have on each other in the game of fantasy football. Common advice that you hear when drafting your fantasy football team is "don't draft a running back and wide receiver from the same team."     
 
@@ -285,6 +285,8 @@ In conclusion, drafting a QB very early can be a valid strategy if you get one o
 
 ## Part 4: How does age affect fantasy performance?
 
+Another common piece of advice in fantasy football is "don't draft older players, they score less points overall and are more likely to get injured." Let's use our data to confirm/deny this argument.
+
 For this, we will look at the top 180 players based on total fantasy points scored. 
 
 Importing & Cleaning Data
@@ -299,7 +301,7 @@ First, let's look at the overall age distribution in the NFL:
 #| fig-cap: "A histogram showing the distribution of ages of NFL players, colored by their position."
 ggplot(AgeData, aes(x = Age, fill = FantPos)) + geom_histogram(binwidth = 1, color = "Black") + theme_bw() + ylab("Count")
 ```
-Age peaks at 24 and generally trails off as age increases. The position with the oldest players is QB, followed by TE. Interestingly, there is only 1 RB older than 30 in our dataset, which shows that the careers of this position are generally shorter than other positions. 
+Age peaks at 24 and generally trails off as age increases. The position with the oldest players is QB, followed by TE. Interestingly, there is only 1 RB older than 30 in our data set, which shows that the careers of this position are generally shorter than other positions. 
 
 Let's look at how many points players score based on their age:
 
@@ -343,10 +345,10 @@ Again, with average points per game separated by position.
 AgeAverages_p <- AgeData |> group_by(Age, FantPos) |> summarize(MeanScore = mean(PPR))
 ggplot(AgeAverages_p, aes(x = Age, y = MeanScore, color = FantPos)) + geom_point() + geom_smooth(method = "loess", se = FALSE) + theme_bw() + ylab("Points Per Game (PPG)")
 ```
-Based on this plot, the PPG for each position based on age varies for each position. The QBs have a concave down parabola, the RBs have a roughly concave up parabole, the WRs trend upwards, dip down at age ~26, and then trend upward again, and the TEs are generally all over the place. These lines are generally not very accurate due to our lack of data points, as we can see that some of the points are very far away from their associated loess lines. These wildly different trends are interesting, nonetheless. 
+Based on this plot, the PPG for each position based on age varies. The QBs have a concave down parabola, the RBs have a roughly concave up parabola, the WRs trend upwards, dip down at age ~26, and then trend upward again, and the TEs are generally all over the place. These lines are generally not very accurate due to our lack of data points, as we can see that some of the points are very far away from their associated loess lines. These wildly different trends are interesting, nonetheless. 
 
 
-Next, let's see how injuries effect players as they age. For this, I will only be looking at the top 120 fantasy players. I am cutting out 1/3 of our sample size because many of the lower-ranked players missed time because they weren't starting for their team, not because they were injured. A limitation of the dataset is that I do not have information on why a player didn't play a game, only the number of games they played in. 
+Next, let's see how injuries effect players as they age. For this, I will only be looking at the top 120 fantasy players. I am cutting out 1/3 of our sample size because many of the lower-ranked players missed time because they weren't starting for their team, not because they were injured. A limitation of the data set is that I do not have information on why a player didn't play a game, only the number of games they played in. 
 ```{r}
 #| label: fig-14
 #| fig-cap: "A scatterplot showing the relationship between age and mean number of games played."
@@ -408,7 +410,7 @@ Now let's see how different positions have scored over time
 Yearly_data_p <- Yearly_data |> group_by(Year, FantPos) |> summarize(AvgPPG = mean(PPR))
 ggplot(Yearly_data_p, aes(x = as.factor(Year), y = AvgPPG, color = FantPos, group = FantPos)) + geom_point() + theme_bw() + geom_line() + ylab("Average PPG") + xlab("Year")
 ```
-Over the last 10 years, QBs have consistently been the top scoring position. The number two spot has primarily gone to WR, with RBs taking over in 2018, 2019 (barely), and most recently, in 2024. TEs have remained the lowest scoring position, but they have been on an upward trend since 2022. Interestingly, TEs were very close to RBs in 2015, but since then the gap between TE and the next best scoring position has been greater. 
+Over the last 10 years, QBs have consistently been the top scoring position. The number two spot has primarily gone to WR, with RBs taking over in 2018, 2019 (barely), and most recently, in 2024. TEs have remained the lowest scoring position, but they have been on an upward trend since 2022. Interestingly, TEs were very close to RBs in 2015, but since then the gap between TE and the next best scoring position has been larger. 
 
 
 The most important aspect of a fantasy football draft is the first round. A good first round pick will set you up well for the season, while a sub-par pick is a detriment to the strength of your team. So, let's look how the positions of the top 10 fantasy players each year has changed over time to get a better sense of what position should be targeted in the first round.
@@ -436,7 +438,7 @@ ggplot(top_24_year, aes(x = Year, fill = FantPos)) + geom_histogram(binwidth = 1
 ```
 When we change our bounds to the top 24 players each year, we see that our trend from before continues. A couple TEs are even in the top 24 in 2020 and 2022! It looks like WRs were popular in 2015, with RBs taking over in the late 2010's, and WRs taking back over in the 2020's. 
 
-In conclusion, it seems as though the positional value of QBs has remained fairly consistent, and the value of RBs/WRs has been cyclical in nature over the last 10 years. Based on our data so far for 2024, it looks like running backs are back on the rise after several seasons of WRs making up more of the top 10 & top 24. Sadly for TEs, it is almost never a good idea to draft them early, as only 2 TEs have been in the top 24 fantasy scorers over the last 10 years.
+In conclusion, it seems as though the positional value of QBs has remained fairly consistent, and the value of RBs/WRs has been cyclical in nature over the last 10 years. Based on our data so far for 2024, it looks like running backs are back on the rise after several seasons of WRs making up more of the top 10 & top 24. Sadly for TEs, it is almost never a good idea to draft them early, as only 2 TEs have been in the top 24 fantasy scorers over the last 10 years. So, based on these findings and our findings from the analysis of the QB position, the optimal first-round pick in next year's draft would likely be a top-ranked QB or a top-ranked running back. 
 
 ## References:
 
